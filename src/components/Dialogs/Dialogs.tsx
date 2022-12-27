@@ -2,36 +2,45 @@ import React from 'react';
 import styles from './Dialogs.module.css';
 import {NavLink} from 'react-router-dom';
 
+type DialogItemPropsType = {
+    id: number
+    name: string
+}
+
+export const DialogItem = (props: DialogItemPropsType) => {
+    return (
+        <div className={`${styles.dialog} ${styles.active}`}>
+            <NavLink to={`/dialogs/${props.id}`}>
+                {props.name}
+            </NavLink>
+        </div>
+    )
+};
+
+export const Message = (props: { message: string }) => {
+    return <div className={styles.dialog}>{props.message}</div>
+};
+
+
 export const Dialogs = () => {
     return (
         <div className={styles.dialogs}>
             <div className={styles.dialogsItems}>
-                <div className={`${styles.dialog} ${styles.active}`}>
-                    <NavLink to="/dialogs/1">
-                        DIMYCH
-                    </NavLink>
-                </div>
-                <div className={styles.dialog}>
-                    <NavLink to="/dialogs/1">
-                        ANDREW
-                    </NavLink>
-                </div>
-                <div className={styles.dialog}>
-                    <NavLink to="/dialogs/1">
-                        ANTONI
-                    </NavLink>
-                </div>
-                <div className={styles.dialog}>
-                    <NavLink to="/dialogs/1">
-                        CAPONE
-                    </NavLink>
-                </div>
+                <DialogItem
+                    id={1}
+                    name={'DIMYCH'}
+                />
+                <DialogItem
+                    id={2}
+                    name={'ANDREW'}
+                />
             </div>
             <div className={styles.messages}>
-                <div className={styles.dialog}>Hi, how are you?</div>
-                <div className={styles.dialog}>I'm fine, thanks</div>
-                <div className={styles.dialog}>What are your plans?</div>
-                <div className={styles.dialog}>Go for a walk this evening</div>
+                <Message message={'Hi, how are you?'}/>
+                <Message message={'I\'m fine, thanks'}/>
+                <Message message={'What are your plans?'}/>
+                <Message message={'What are your plans?'}/>
+                <Message message={'Go for a walk this evening'}/>
             </div>
         </div>
     );

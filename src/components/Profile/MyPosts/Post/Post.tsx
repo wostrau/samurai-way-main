@@ -1,7 +1,12 @@
 import React from 'react';
 import styles from './Post.module.css';
 
-export const Post = (props: {message: string}) => {
+type PostPropsType = {
+    message: string
+    likesCount: number
+}
+
+export const Post = (props: PostPropsType) => {
     return (
         <div className={styles.posts}>
             <div
@@ -12,9 +17,9 @@ export const Post = (props: {message: string}) => {
                     alt="avatar image"
                 />
                 {props.message}
+                <div>#likes: {props.likesCount}</div>
             </div>
             <button>LIKE</button>
-            <button>disLIKE</button>
         </div>
     );
 };
