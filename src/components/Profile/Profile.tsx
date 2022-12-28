@@ -3,18 +3,20 @@ import {MyPosts} from './MyPosts/MyPosts';
 import {ProfileInfo} from './ProfileInfo/ProfileInfo';
 
 export type PostDataPropsType = {
-    posts: Array<{
-        id: number,
-        message: string,
-        likesCount: number
-    }>
+    profilePage: {
+        posts: Array<{
+            id: number,
+            message: string,
+            likesCount: number
+        }>
+    }
 };
 
 export const Profile = (props: PostDataPropsType) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts posts={props.posts}/>
+            <MyPosts posts={props.profilePage.posts}/>
         </div>
     );
 };

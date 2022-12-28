@@ -6,23 +6,29 @@ import {Profile} from './components/Profile/Profile';
 import {Dialogs} from './components/Dialogs/Dialogs';
 import {BrowserRouter, Route} from 'react-router-dom';
 
-export type AppPropsType = {
-    posts: Array<{
-        id: number,
-        message: string,
-        likesCount: number
-    }>
-    dialogs: Array<{
-        id: number,
-        name: string
-    }>
-    messages: Array<{
-        id: number,
-        message: string
-    }>
+export type StateType = {
+    state: {
+        profilePage: {
+            posts: Array<{
+                id: number,
+                message: string,
+                likesCount: number
+            }>
+        },
+        dialogsPage: {
+            dialogs: Array<{
+                id: number,
+                name: string
+            }>,
+            messages: Array<{
+                id: number,
+                message: string
+            }>
+        }
+    }
 };
 
-function App(props: AppPropsType) {
+function App(props: StateType) {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -32,14 +38,13 @@ function App(props: AppPropsType) {
                     <Route
                         path="/profile"
                         render={() => <Profile
-                            posts={props.posts}
+                            profilePage={props.state.profilePage}
                         />}
                     />
                     <Route
                         path="/dialogs"
                         render={() => <Dialogs
-                            dialogs={props.dialogs}
-                            messages={props.messages}
+                            dialogsPage={props.state.dialogsPage}
                         />}
                     />
                 </div>

@@ -4,18 +4,20 @@ import {DialogItem} from './DialogItem/DialogItem';
 import {Message} from './Message/Message';
 
 type DialogsPropsType = {
-    dialogs: Array<{
-        id: number,
-        name: string
-    }>
-    messages: Array<{
-        id: number,
-        message: string
-    }>
+    dialogsPage: {
+        dialogs: Array<{
+            id: number,
+            name: string
+        }>
+        messages: Array<{
+            id: number,
+            message: string
+        }>
+    }
 };
 
 export const Dialogs = (props: DialogsPropsType) => {
-    const dialogElements = props.dialogs.map(dialog => {
+    const dialogElements = props.dialogsPage.dialogs.map(dialog => {
         return (
             <DialogItem
                 key={dialog.id}
@@ -24,7 +26,7 @@ export const Dialogs = (props: DialogsPropsType) => {
             />
         );
     });
-    const messagesElements = props.messages.map(m => {
+    const messagesElements = props.dialogsPage.messages.map(m => {
         return (
             <Message
                 key={m.id}

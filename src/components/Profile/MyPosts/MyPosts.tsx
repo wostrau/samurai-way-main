@@ -1,9 +1,16 @@
 import React from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
-import {PostDataPropsType} from '../Profile';
 
-export const MyPosts = (props: PostDataPropsType) => {
+type MyPostPropsType = {
+    posts: Array<{
+        id: number,
+        message: string,
+        likesCount: number
+    }>
+};
+
+export const MyPosts = (props: MyPostPropsType) => {
     const postsElements = props.posts.map(p => {
         return (
             <Post
