@@ -15,11 +15,11 @@ function App() {
                 <div className="app-wrapper-content">
                     <Route
                         path="/profile"
-                        component={Profile}
+                        render={()=><Profile/>}
                     />
                     <Route
                         path="/dialogs"
-                        component={Dialogs}
+                        render={()=><Dialogs/>}
                     />
                 </div>
             </div>
