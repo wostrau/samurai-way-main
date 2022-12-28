@@ -1,13 +1,10 @@
 import React from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
+import {PostDataPropsType} from '../Profile';
 
-export const MyPosts = () => {
-    const postData = [
-        {id: 1, message: 'Hi, how are you?', likesCount: 5},
-        {id: 2, message: 'It\'s my first post!', likesCount: 7}
-    ]
-    const postsElements = postData.map(p=>{
+export const MyPosts = (props: PostDataPropsType) => {
+    const postsElements = props.posts.map(p => {
         return (
             <Post
                 key={p.id}
