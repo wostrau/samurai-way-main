@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {LegacyRef} from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
 
@@ -21,15 +21,26 @@ export const MyPosts = (props: MyPostPropsType) => {
         );
     });
 
+    const newPostElement: LegacyRef<HTMLTextAreaElement> = React.createRef();
+    const addPost = () => {
+        let text = newPostElement.current.value;
+        return text;
+    };
+
     return (
         <div className={styles.postsBlock}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea></textarea>
+                    <textarea
+                        ref={newPostElement}
+                    ></textarea>
                 </div>
                 <div>
-                    <button>Add post</button>
+                    <button
+                        onClick={addPost}
+                    >Add post
+                    </button>
                 </div>
             </div>
             <div className={styles.posts}>
