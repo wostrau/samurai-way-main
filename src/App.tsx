@@ -25,7 +25,8 @@ export type StateType = {
                 message: string
             }>
         }
-    }
+    },
+    addPost: (post: string) => void
 };
 
 function App(props: StateType) {
@@ -38,6 +39,7 @@ function App(props: StateType) {
                     path="/profile"
                     render={() => <Profile
                         profilePage={props.state.profilePage}
+                        addPost={props.addPost}
                     />}
                 />
                 <Route

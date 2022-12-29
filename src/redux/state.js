@@ -18,3 +18,12 @@ export const state = {
         ]
     }
 };
+
+export const addPost = (post) => {
+    const newPost = {
+        id: 3,
+        message: post,
+        likesCount: 0
+    };
+    state.profilePage.posts.unshift(newPost);
+}

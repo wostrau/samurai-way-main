@@ -10,13 +10,17 @@ export type PostDataPropsType = {
             likesCount: number
         }>
     }
+    addPost: (post: string) => void
 };
 
 export const Profile = (props: PostDataPropsType) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts posts={props.profilePage.posts}/>
+            <MyPosts
+                posts={props.profilePage.posts}
+                addPost={props.addPost}
+            />
         </div>
     );
 };

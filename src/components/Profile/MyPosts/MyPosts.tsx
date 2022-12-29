@@ -1,4 +1,4 @@
-import React, {LegacyRef} from 'react';
+import React, {useState} from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
 
@@ -8,9 +8,11 @@ type MyPostPropsType = {
         message: string,
         likesCount: number
     }>
+    addPost: (post: string) => void;
 };
 
 export const MyPosts = (props: MyPostPropsType) => {
+    const [post, setPost] = useState<string>('');
     const postsElements = props.posts.map(p => {
         return (
             <Post
@@ -20,12 +22,7 @@ export const MyPosts = (props: MyPostPropsType) => {
             />
         );
     });
-
-    const newPostElement: LegacyRef<HTMLTextAreaElement> = React.createRef();
-    const addPost = () => {
-        let text = newPostElement.current.value;
-        return text;
-    };
+    const onClickHandler = () => props.addPost(post);
 
     return (
         <div className={styles.postsBlock}>
@@ -33,12 +30,13 @@ export const MyPosts = (props: MyPostPropsType) => {
             <div>
                 <div>
                     <textarea
-                        ref={newPostElement}
+                        value={post}
+                        onChange={(e) => setPost(e.currentTarget.value)}
                     ></textarea>
                 </div>
                 <div>
                     <button
-                        onClick={addPost}
+                        onClick={onClickHandler}
                     >Add post
                     </button>
                 </div>
