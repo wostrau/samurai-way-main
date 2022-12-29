@@ -6,7 +6,7 @@ import {Profile} from './components/Profile/Profile';
 import {Dialogs} from './components/Dialogs/Dialogs';
 import {Route} from 'react-router-dom';
 
-export type StateType = {
+export type AppPropsType = {
     state: {
         profilePage: {
             posts: Array<{
@@ -29,7 +29,7 @@ export type StateType = {
     addPost: (post: string) => void
 };
 
-function App(props: StateType) {
+function App(props: AppPropsType) {
     return (
         <div className="app-wrapper">
             <Header/>

@@ -22,7 +22,10 @@ export const MyPosts = (props: MyPostPropsType) => {
             />
         );
     });
-    const onClickHandler = () => props.addPost(post);
+    const onClickHandler = () => {
+        props.addPost(post);
+        setPost('');
+    };
 
     return (
         <div className={styles.postsBlock}>

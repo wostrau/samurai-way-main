@@ -1,4 +1,26 @@
-export const state = {
+import {rerenderEntireTree} from './render';
+
+export type StateType = {
+    profilePage: {
+        posts: Array<{
+            id: number,
+            message: string,
+            likesCount: number
+        }>
+    },
+    dialogsPage: {
+        dialogs: Array<{
+            id: number,
+            name: string
+        }>,
+        messages: Array<{
+            id: number,
+            message: string
+        }>
+    }
+};
+
+export const state: StateType = {
     profilePage: {
         posts: [
             {id: 1, message: 'Hi, how are you?', likesCount: 5},
@@ -19,11 +41,12 @@ export const state = {
     }
 };
 
-export const addPost = (post) => {
+export const addPost = (post: string) => {
     const newPost = {
         id: 3,
         message: post,
         likesCount: 0
     };
     state.profilePage.posts.unshift(newPost);
+    rerenderEntireTree(state);
 }
