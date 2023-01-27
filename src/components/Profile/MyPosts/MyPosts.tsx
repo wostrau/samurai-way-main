@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
 
@@ -7,25 +7,21 @@ type MyPostPropsType = {
         id: number,
         message: string,
         likesCount: number
-    }>
-    addPost: (post: string) => void;
+    }>,
+    newPostText: string,
+    addPost: () => void,
+    updateNewPostText: (newText: string) => void,
 };
 
 export const MyPosts = (props: MyPostPropsType) => {
-    const [post, setPost] = useState<string>('');
-    const postsElements = props.posts.map(p => {
-        return (
-            <Post
-                key={p.id}
-                message={p.message}
-                likesCount={p.likesCount}
-            />
-        );
-    });
-    const onClickHandler = () => {
-        props.addPost(post);
-        setPost('');
+    const addPostHandler = () => {
+        props.addPost();
     };
+    const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.updateNewPostText(e.currentTarget.value);
+    };
+
+    const postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
 
     return (
         <div className={styles.postsBlock}>
@@ -33,13 +29,14 @@ export const MyPosts = (props: MyPostPropsType) => {
             <div>
                 <div>
                     <textarea
-                        value={post}
-                        onChange={(e) => setPost(e.currentTarget.value)}
-                    ></textarea>
+                        value={props.newPostText}
+                        onChange={onPostChangeHandler}
+                        placeholder={'add your post here'}
+                    />
                 </div>
                 <div>
                     <button
-                        onClick={onClickHandler}
+                        onClick={addPostHandler}
                     >Add post
                     </button>
                 </div>

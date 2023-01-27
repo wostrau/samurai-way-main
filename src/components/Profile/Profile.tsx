@@ -8,9 +8,11 @@ export type PostDataPropsType = {
             id: number,
             message: string,
             likesCount: number
-        }>
-    }
-    addPost: (post: string) => void
+        }>,
+        newPostText: string
+    },
+    addPost: () => void,
+    updateNewPostText: (newText: string) => void,
 };
 
 export const Profile = (props: PostDataPropsType) => {
@@ -19,7 +21,9 @@ export const Profile = (props: PostDataPropsType) => {
             <ProfileInfo/>
             <MyPosts
                 posts={props.profilePage.posts}
+                newPostText={props.profilePage.newPostText}
                 addPost={props.addPost}
+                updateNewPostText={props.updateNewPostText}
             />
         </div>
     );
