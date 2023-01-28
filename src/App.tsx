@@ -7,10 +7,11 @@ import {Dialogs} from './components/Dialogs/Dialogs';
 import {Route} from 'react-router-dom';
 import {StateType} from './redux/state';
 
+
 export type AppPropsType = {
-    state: StateType,
-    addPost: () => void,
-    updateNewPostText: (newText: string) => void,
+    state: StateType
+    addPost: ()=>void
+    updateNewPostText:(newText: string)=>void
 };
 
 function App(props: AppPropsType) {
