@@ -1,5 +1,3 @@
-
-
 export type StateType = {
     profilePage: {
         posts: Array<{
@@ -25,8 +23,7 @@ export type StoreType = {
     getState: () => StateType,
     _callSubscriber: (state: StateType) => void,
     subscribe: (observer: any) => void,
-    addPost: () => void;
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionsType) => void;
 };
 
 export const store: StoreType = {
@@ -51,25 +48,35 @@ export const store: StoreType = {
             ]
         },
     } as StateType,
+    _callSubscriber() {
+    },
+
     getState() {
         return this._state;
     },
-    _callSubscriber() {},
     subscribe(observer: any) {
         this._callSubscriber = observer;
     },
-    addPost() {
-        const newPost = {
-            id: 3,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        };
-        this._state.profilePage.posts.unshift(newPost);
-        this._state.profilePage.newPostText = '';
-        this._callSubscriber(this._state);
-    },
-    updateNewPostText (newText: string) {
-        this._state.profilePage.newPostText = newText;
-        this._callSubscriber(this._state);
+
+    dispatch(action: ActionsType) {
+        if (action.type === 'ADD-POST') {
+            const newPost = {
+                id: 3,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            };
+            this._state.profilePage.posts.unshift(newPost);
+            this._state.profilePage.newPostText = '';
+            this._callSubscriber(this._state);
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText;
+            this._callSubscriber(this._state);
+        }
     },
 };
+
+export const addPostAC = () => {
+    return {type: 'ADD-POST'} as const};
+export const updateNewPostTextAC = (newText: string) => {
+    return {type: 'UPDATE-NEW-POST-TEXT', newText: newText} as const};
+export type ActionsType = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC>

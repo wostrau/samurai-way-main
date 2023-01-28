@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
+import {ActionsType, addPostAC, updateNewPostTextAC} from '../../../redux/state';
 
 type MyPostPropsType = {
     posts: Array<{
@@ -9,16 +10,15 @@ type MyPostPropsType = {
         likesCount: number
     }>,
     newPostText: string,
-    addPost: () => void,
-    updateNewPostText: (newText: string) => void,
+    dispatch: (action: ActionsType) => void;
 };
 
 export const MyPosts = (props: MyPostPropsType) => {
     const addPostHandler = () => {
-        props.addPost();
+        props.dispatch(addPostAC());
     };
     const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value);
+        props.dispatch(updateNewPostTextAC(e.currentTarget.value));
     };
 
     const postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
