@@ -6,11 +6,11 @@ import {DialogsReducerActionsType, sendMessageAC, updateNewMessageBodyAC} from '
 
 export type DialogsPageType = {
     dialogs: Array<{
-        id: number,
+        id: string,
         name: string
     }>
     messages: Array<{
-        id: number,
+        id: string,
         message: string
     }>,
     newMessageBody: string,

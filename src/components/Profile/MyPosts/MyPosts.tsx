@@ -5,7 +5,7 @@ import {addPostAC, ProfileReducerActionsType, updateNewPostTextAC} from '../../.
 
 type MyPostPropsType = {
     posts: Array<{
-        id: number,
+        id: string,
         message: string,
         likesCount: number
     }>,

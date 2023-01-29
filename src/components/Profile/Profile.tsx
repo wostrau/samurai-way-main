@@ -5,7 +5,7 @@ import {ProfileReducerActionsType} from '../../redux/profile-reducer';
 
 export type ProfilePageType = {
     posts: Array<{
-        id: number,
+        id: string,
         message: string,
         likesCount: number
     }>,

@@ -1,12 +1,21 @@
-import {ActionsType} from './state';
+import {ActionsType} from './store';
 import {ProfilePageType} from '../components/Profile/Profile';
+import {v1} from 'uuid';
 
-export const profileReducer = (state: ProfilePageType, action: ActionsType) => {
+const initialState =  {
+    posts: [
+        {id: '1', message: 'Hi, how are you?', likesCount: 5},
+        {id: '2', message: 'It\'s my first post!', likesCount: 7}
+    ],
+    newPostText: '',
+} as ProfilePageType;
+
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionsType) => {
     switch (action.type) {
         case 'ADD-POST': {
             const stateCopy = state;
             const newPost = state.newPostText;
-            stateCopy.posts.unshift({id: 3, message: newPost, likesCount: 0});
+            stateCopy.posts.unshift({id: v1(), message: newPost, likesCount: 0});
             stateCopy.newPostText = '';
             return stateCopy;
         }

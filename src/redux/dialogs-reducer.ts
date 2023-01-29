@@ -1,12 +1,27 @@
-import {ActionsType} from './state';
+import {ActionsType} from './store';
 import {DialogsPageType} from '../components/Dialogs/Dialogs';
+import {v1} from 'uuid';
 
-export const dialogsReducer = (state: DialogsPageType, action: ActionsType) => {
+const initialState = {
+    dialogs: [
+        {id: '1', name: 'DIMYCH'},
+        {id: '2', name: 'ANDREW'},
+    ],
+        messages: [
+    {id: '1', message: 'Hi, how are you?'},
+    {id: '2', message: 'I\'m fine, thanks'},
+    {id: '3', message: 'What are your plans?'},
+    {id: '4', message: 'Go for a walk this evening'},
+],
+    newMessageBody: '',
+} as DialogsPageType;
+
+export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionsType) => {
     switch (action.type) {
         case 'SEND-MESSAGE': {
             const stateCopy = state;
             const newMessage = state.newMessageBody;
-            stateCopy.messages.push({id: 5, message: newMessage});
+            stateCopy.messages.push({id: v1(), message: newMessage});
             stateCopy.newMessageBody = '';
             return stateCopy;
         }
