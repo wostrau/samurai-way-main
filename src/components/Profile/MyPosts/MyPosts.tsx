@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
-import {ActionsType, addPostAC, updateNewPostTextAC} from '../../../redux/state';
+import {addPostAC, ProfileReducerActionsType, updateNewPostTextAC} from '../../../redux/profile-reducer';
 
 type MyPostPropsType = {
     posts: Array<{
@@ -10,7 +10,7 @@ type MyPostPropsType = {
         likesCount: number
     }>,
     newPostText: string,
-    dispatch: (action: ActionsType) => void;
+    dispatch: (action: ProfileReducerActionsType) => void;
 };
 
 export const MyPosts = (props: MyPostPropsType) => {

@@ -1,3 +1,6 @@
+import {dialogsReducer, DialogsReducerActionsType} from './dialogs-reducer';
+import {profileReducer, ProfileReducerActionsType} from './profile-reducer';
+
 export type StateType = {
     profilePage: {
         posts: Array<{
@@ -59,40 +62,10 @@ export const store: StoreType = {
         this._callSubscriber = observer;
     },
     dispatch(action: ActionsType) {
-        if (action.type === 'ADD-POST') {
-            const newPost = {
-                id: 3,
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            };
-            this._state.profilePage.posts.unshift(newPost);
-            this._state.profilePage.newPostText = '';
-            this._callSubscriber(this._state);
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profilePage.newPostText = action.newText;
-            this._callSubscriber(this._state);
-        } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
-            this._state.dialogsPage.newMessageBody = action.newMessage;
-            this._callSubscriber(this._state);
-        } else if (action.type === 'SEND-MESSAGE') {
-            const newMessage = this._state.dialogsPage.newMessageBody;
-            this._state.dialogsPage.messages.push({id: 5, message: newMessage});
-            this._state.dialogsPage.newMessageBody = '';
-            this._callSubscriber(this._state);
-        }
-    },
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._callSubscriber(this._state);
+    }
 };
 
-export const addPostAC = () => ({type: 'ADD-POST'} as const);
-export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: newText} as const);
-export const updateNewMessageBodyAC = (newMessage: string) => ({
-    type: 'UPDATE-NEW-MESSAGE-BODY',
-    newMessage: newMessage
-} as const);
-export const sendMessageAC = () => ({type: 'SEND-MESSAGE'} as const);
-
-export type ActionsType =
-    ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostTextAC>
-    | ReturnType<typeof updateNewMessageBodyAC>
-    | ReturnType<typeof sendMessageAC>
+export type ActionsType = DialogsReducerActionsType | ProfileReducerActionsType;

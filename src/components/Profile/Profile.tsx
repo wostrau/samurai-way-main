@@ -1,18 +1,19 @@
 import React from 'react';
 import {MyPosts} from './MyPosts/MyPosts';
 import {ProfileInfo} from './ProfileInfo/ProfileInfo';
-import {ActionsType} from '../../redux/state';
+import {ProfileReducerActionsType} from '../../redux/profile-reducer';
 
+export type ProfilePageType = {
+    posts: Array<{
+        id: number,
+        message: string,
+        likesCount: number
+    }>,
+    newPostText: string
+};
 export type PostDataPropsType = {
-    profilePage: {
-        posts: Array<{
-            id: number,
-            message: string,
-            likesCount: number
-        }>,
-        newPostText: string
-    },
-    dispatch: (action: ActionsType) => void;
+    profilePage: ProfilePageType,
+    dispatch: (action: ProfileReducerActionsType) => void;
 };
 
 export const Profile = (props: PostDataPropsType) => {
