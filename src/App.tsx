@@ -30,6 +30,7 @@ function App(props: AppPropsType) {
                     path="/dialogs"
                     render={() => <Dialogs
                         dialogsPage={props.state.dialogsPage}
+                        dispatch={props.dispatch}
                     />}
                 />
             </div>
