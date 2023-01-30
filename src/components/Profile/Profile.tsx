@@ -1,7 +1,7 @@
 import React from 'react';
-import {MyPosts} from './MyPosts/MyPosts';
 import {ProfileInfo} from './ProfileInfo/ProfileInfo';
 import {ProfileReducerActionsType} from '../../redux/profile-reducer';
+import {MyPostsContainer} from './MyPosts/MyPostsContainer';
 
 export type ProfilePageType = {
     posts: Array<{
@@ -20,7 +20,7 @@ export const Profile = (props: PostDataPropsType) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts
+            <MyPostsContainer
                 posts={props.profilePage.posts}
                 newPostText={props.profilePage.newPostText}
                 dispatch={props.dispatch}
