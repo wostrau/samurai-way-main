@@ -1,8 +1,10 @@
 import React from 'react';
-import {addPostAC, ProfileReducerActionsType, updateNewPostTextAC} from '../../../redux/profile-reducer';
+import {addPostAC, updateNewPostTextAC} from '../../../redux/profile-reducer';
+import {StoreContext} from '../../../redux/storeContext';
 import {MyPosts} from './MyPosts';
 
-type MyPostPropsType = {
+
+/*type MyPostPropsType = {
     posts: Array<{
         id: string,
         message: string,
@@ -10,16 +12,25 @@ type MyPostPropsType = {
     }>,
     newPostText: string,
     dispatch: (action: ProfileReducerActionsType) => void;
-};
+};*/
 
-export const MyPostsContainer = (props: MyPostPropsType) => {
-    const addPost = () => props.dispatch(addPostAC());
-    const updateNewPostText = (text: string) => props.dispatch(updateNewPostTextAC(text));
+export const MyPostsContainer = () => {
 
-    return <MyPosts
-        posts={props.posts}
-        newPostText={props.newPostText}
-        addPost={addPost}
-        updateNewPostText={updateNewPostText}
-    />;
+    return (
+        <StoreContext.Consumer>
+            {(store)=>{
+                const addPost = () => store.dispatch(addPostAC());
+                const updateNewPostText = (text: string) => store.dispatch(updateNewPostTextAC(text));
+
+                return (
+                    <MyPosts
+                        posts={store.getState().profilePage.posts}
+                        newPostText={store.getState().profilePage.newPostText}
+                        addPost={addPost}
+                        updateNewPostText={updateNewPostText}
+                    />
+                );
+            }}
+        </StoreContext.Consumer>
+    );
 };

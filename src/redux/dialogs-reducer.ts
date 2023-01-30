@@ -1,5 +1,4 @@
 import {ActionsType} from './store';
-import {DialogsPageType} from '../components/Dialogs/Dialogs';
 import {v1} from 'uuid';
 
 const initialState = {
@@ -41,4 +40,15 @@ export const updateNewMessageBodyAC = (newMessage: string) => ({
 } as const);
 export const sendMessageAC = () => ({type: 'SEND-MESSAGE'} as const);
 
-export type DialogsReducerActionsType = ReturnType<typeof updateNewMessageBodyAC> | ReturnType<typeof sendMessageAC>
+export type DialogsReducerActionsType = ReturnType<typeof updateNewMessageBodyAC> | ReturnType<typeof sendMessageAC>;
+export type DialogsPageType = {
+    dialogs: Array<{
+        id: string,
+        name: string
+    }>
+    messages: Array<{
+        id: string,
+        message: string
+    }>,
+    newMessageBody: string,
+};

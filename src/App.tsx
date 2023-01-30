@@ -4,7 +4,6 @@ import {Header} from './components/Header/Header';
 import {Navbar} from './components/Navbar/Navbar';
 import {Profile} from './components/Profile/Profile';
 import {Route} from 'react-router-dom';
-import {store} from './redux/redux-store';
 import {DialogsContainer} from './components/Dialogs/DialogsContainer';
 
 
@@ -16,17 +15,11 @@ function App() {
             <div className="app-wrapper-content">
                 <Route
                     path="/profile"
-                    render={() => <Profile
-                        profilePage={store.getState().profilePage}
-                        dispatch={store.dispatch}
-                    />}
+                    render={() => <Profile/>}
                 />
                 <Route
                     path="/dialogs"
-                    render={() => <DialogsContainer
-                        dialogsPage={store.getState().dialogsPage}
-                        dispatch={store.dispatch}
-                    />}
+                    render={() => <DialogsContainer/>}
                 />
             </div>
         </div>

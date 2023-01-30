@@ -1,6 +1,6 @@
 import {ActionsType} from './store';
-import {ProfilePageType} from '../components/Profile/Profile';
 import {v1} from 'uuid';
+
 
 const initialState =  {
     posts: [
@@ -33,3 +33,11 @@ export const addPostAC = () => ({type: 'ADD-POST'} as const);
 export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: newText} as const);
 
 export type ProfileReducerActionsType = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC>;
+export type ProfilePageType = {
+    posts: Array<{
+        id: string,
+        message: string,
+        likesCount: number
+    }>,
+    newPostText: string
+};

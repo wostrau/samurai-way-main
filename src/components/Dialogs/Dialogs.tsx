@@ -2,18 +2,9 @@ import React, {ChangeEvent} from 'react';
 import styles from './Dialogs.module.css';
 import {DialogItem} from './DialogItem/DialogItem';
 import {Message} from './Message/Message';
+import {DialogsPageType} from '../../redux/dialogs-reducer';
 
-export type DialogsPageType = {
-    dialogs: Array<{
-        id: string,
-        name: string
-    }>
-    messages: Array<{
-        id: string,
-        message: string
-    }>,
-    newMessageBody: string,
-};
+
 type DialogsPropsType = {
     dialogsPage: DialogsPageType,
     sendMessage: () => void;

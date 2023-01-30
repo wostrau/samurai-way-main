@@ -1,8 +1,10 @@
 import React from 'react';
-import {DialogsReducerActionsType, sendMessageAC, updateNewMessageBodyAC} from '../../redux/dialogs-reducer';
+import {sendMessageAC, updateNewMessageBodyAC} from '../../redux/dialogs-reducer';
+import {StoreContext} from '../../redux/storeContext';
 import {Dialogs} from './Dialogs';
 
-export type DialogsPageType = {
+
+/*export type DialogsPageType = {
     dialogs: Array<{
         id: string,
         name: string
@@ -12,22 +14,26 @@ export type DialogsPageType = {
         message: string
     }>,
     newMessageBody: string,
-};
-type DialogsPropsType = {
-    dialogsPage: DialogsPageType,
-    dispatch: (action: DialogsReducerActionsType) => void;
-};
+};*/
 
-export const DialogsContainer = (props: DialogsPropsType) => {
-    const sendMessage = () => {
-      props.dispatch(sendMessageAC());
-    };
-    const updateNewMessageBody = (message: string) => {
-        props.dispatch(updateNewMessageBodyAC(message));
-    };
+export const DialogsContainer = () => {
 
-    return <Dialogs
-        dialogsPage={props.dialogsPage}
-        sendMessage={sendMessage}
-        updateNewMessageBody={updateNewMessageBody} />
+    return (
+        <StoreContext.Consumer>
+            {(store) => {
+                const sendMessage = () => {
+                    store.dispatch(sendMessageAC());
+                };
+                const updateNewMessageBody = (message: string) => {
+                    store.dispatch(updateNewMessageBodyAC(message));
+                };
+                return (
+                    <Dialogs
+                        dialogsPage={store.getState().dialogsPage}
+                        sendMessage={sendMessage}
+                        updateNewMessageBody={updateNewMessageBody}/>
+                );
+            }}
+        </StoreContext.Consumer>
+    );
 };
