@@ -1,14 +1,10 @@
 import React, {ChangeEvent} from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
+import {ProfilePageType} from '../../../redux/profile-reducer';
 
 type MyPostPropsType = {
-    posts: Array<{
-        id: string,
-        message: string,
-        likesCount: number
-    }>,
-    newPostText: string,
+    profilePage: ProfilePageType
     addPost: () => void;
     updateNewPostText: (text: string) => void;
 };
@@ -21,7 +17,7 @@ export const MyPosts = (props: MyPostPropsType) => {
         props.updateNewPostText(event.currentTarget.value);
     };
 
-    const postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
+    const postsElements = props.profilePage.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
 
     return (
         <div className={styles.postsBlock}>
@@ -29,7 +25,7 @@ export const MyPosts = (props: MyPostPropsType) => {
             <div>
                 <div>
                     <textarea
-                        value={props.newPostText}
+                        value={props.profilePage.newPostText}
                         onChange={onPostChangeHandler}
                         placeholder={'add your post here'}
                     />
