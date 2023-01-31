@@ -10,9 +10,9 @@ export const usersReducer = (state: UsersPageType = initialState, action: AppAct
         case 'SET-USERS':
             return {...state, users: [...state.users, ...action.users]};
         case 'FOLLOW-USER':
-            return {...state, users: state.users.map(u => u.id === action.id ? {...u, isFollowed: true} : u)};
+            return {...state, users: state.users.map(u => u.id === action.id ? {...u, followed: true} : u)};
         case 'UNFOLLOW-USER':
-            return {...state, users: state.users.map(u => u.id === action.id ? {...u, isFollowed: false} : u)};
+            return {...state, users: state.users.map(u => u.id === action.id ? {...u, followed: false} : u)};
         default:
             return state;
     }
@@ -24,14 +24,14 @@ export const unfollowUserAC = (id: string) => ({type: 'UNFOLLOW-USER', id: id} a
 
 export type UserType = {
     id: string,
-    avatar: string,
-    fullName: string,
+    name: string,
+    uniqueUrlName: string
+    photos: {
+        small: string
+        large: string
+    }
     status: string
-    location: {
-        country: string,
-        city: string
-    },
-    isFollowed: boolean
+    followed: boolean
 };
 export type UsersPageType = typeof initialState;
 export type UsersReducerActionsType =
