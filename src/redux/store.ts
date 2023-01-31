@@ -1,5 +1,6 @@
-import {dialogsReducer, DialogsReducerActionsType} from './dialogs-reducer';
-import {profileReducer, ProfileReducerActionsType} from './profile-reducer';
+import {dialogsReducer} from './dialogs-reducer';
+import {profileReducer} from './profile-reducer';
+import {ActionsType} from './redux-store';
 
 export const store: StoreType = {
     _state: {
@@ -69,4 +70,3 @@ export type StoreType = {
     dispatch: (action: ActionsType) => void;
 };
 
-export type ActionsType = DialogsReducerActionsType | ProfileReducerActionsType;

@@ -17,6 +17,12 @@ export const Navbar = () => {
                     to="/dialogs"
                 >messages</NavLink>
             </div>
+            <div className={`${styles.item} ${styles.active}`}>
+                <NavLink
+                    activeClassName={styles.activeLink}
+                    to="/users"
+                >users</NavLink>
+            </div>
         </nav>
     );
 };

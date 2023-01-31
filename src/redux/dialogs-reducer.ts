@@ -1,5 +1,5 @@
-import {ActionsType} from './store';
 import {v1} from 'uuid';
+import {ActionsType} from './redux-store';
 
 const initialState = {
     dialogs: [

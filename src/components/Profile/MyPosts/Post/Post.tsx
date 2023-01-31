@@ -13,8 +13,8 @@ export const Post = (props: PostPropsType) => {
                 className={styles.item}
             >
                 <img
-                    src="https://cdn1.vectorstock.com/i/1000x1000/31/95/user-sign-icon-person-symbol-human-avatar-vector-12693195.jpg"
-                    alt="avatar image"
+                    src="https://manager.almadarisp.com/user/img/user.png"
+                    alt="usersAvatar"
                 />
                 {props.message}
                 <div>#likes: {props.likesCount}</div>
