@@ -1,11 +1,11 @@
-import {ActionsType} from './redux-store';
+import {AppActionsType} from './redux-store';
 
 export const avatarURL = 'https://manager.almadarisp.com/user/img/user.png'
 const initialState = {
-    users: []
-} as UsersPageType;
+    users: [] as Array<UserType>
+};
 
-export const usersReducer = (state: UsersPageType = initialState, action: ActionsType) => {
+export const usersReducer = (state: UsersPageType = initialState, action: AppActionsType): UsersPageType => {
     switch (action.type) {
         case 'SET-USERS':
             return {...state, users: [...state.users, ...action.users]};
@@ -18,14 +18,11 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
     }
 };
 
-export const setUsersAC = (users: UsersType) => ({type: 'SET-USERS', users: users} as const);
+export const setUsersAC = (users: Array<UserType>) => ({type: 'SET-USERS', users: users} as const);
 export const followUserAC = (id: string) => ({type: 'FOLLOW-USER', id: id} as const);
 export const unfollowUserAC = (id: string) => ({type: 'UNFOLLOW-USER', id: id} as const);
 
-export type UsersPageType = {
-    users: UsersType
-};
-export type UsersType = Array<{
+export type UserType = {
     id: string,
     avatar: string,
     fullName: string,
@@ -35,7 +32,8 @@ export type UsersType = Array<{
         city: string
     },
     isFollowed: boolean
-}>;
+};
+export type UsersPageType = typeof initialState;
 export type UsersReducerActionsType =
     ReturnType<typeof setUsersAC>
     | ReturnType<typeof followUserAC>

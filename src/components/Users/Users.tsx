@@ -1,17 +1,11 @@
 import React from 'react';
-import {avatarURL, UsersPageType, UsersType} from '../../redux/users-reducer';
+import {avatarURL} from '../../redux/users-reducer';
 import styles from './Users.module.css';
+import {UsersPropsType} from './UsersContainer';
 
-
-type UsersPropsType = {
-    usersPage: UsersPageType,
-    setUsers: (users: UsersType) => void,
-    followUser: (id: string) => void,
-    unfollowUser: (id: string) => void,
-}
 
 export const Users = (props: UsersPropsType) => {
-    if (props.usersPage.users.length === 0) {
+    if (props.users.length === 0) {
         props.setUsers([
             {
                 id: '1',
@@ -32,7 +26,7 @@ export const Users = (props: UsersPropsType) => {
         ]);
     }
 
-    const createdUsers = props.usersPage.users.map(u => {
+    const createdUsers = props.users.map(u => {
         return (
             <div key={u.id}>
                 <span>

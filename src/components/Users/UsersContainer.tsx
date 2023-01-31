@@ -7,18 +7,27 @@ import {
     unfollowUserAC,
     UsersPageType,
     UsersReducerActionsType,
-    UsersType
+    UserType
 } from '../../redux/users-reducer';
+import {AppStateType} from '../../redux/redux-store';
+import {Dispatch} from 'redux';
 
+type MapDispatchToPropsType = {
+    setUsers: (users: Array<UserType>) => void,
+    followUser: (id: string) => void,
+    unfollowUser: (id: string) => void,
+};
 
-const mapStateToProps = (state: { usersPage: UsersPageType }) => {
+export type UsersPropsType = UsersPageType & MapDispatchToPropsType;
+
+const mapStateToProps = (state: AppStateType): UsersPageType => {
     return {
-        usersPage: state.usersPage,
+        users: state.usersPage.users,
     }
 };
-const mapDispatchToProps = (dispatch: (action: UsersReducerActionsType) => void) => {
+const mapDispatchToProps = (dispatch: Dispatch<UsersReducerActionsType>): MapDispatchToPropsType => {
     return {
-        setUsers: (users: UsersType) => dispatch(setUsersAC(users)),
+        setUsers: (users: Array<UserType>) => dispatch(setUsersAC(users)),
         followUser: (id: string) => dispatch(followUserAC(id)),
         unfollowUser: (id: string) => dispatch(unfollowUserAC(id)),
     }
