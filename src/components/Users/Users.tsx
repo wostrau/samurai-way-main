@@ -9,13 +9,30 @@ export class Users extends React.Component<UsersPropsType> {
 
     componentDidMount() {
         axios
-            .get('https://social-network.samuraijs.com/api/1.0/users')
+            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(res => {
+                this.props.setUsers(res.data.items)
+                this.props.setTotalUsersCount(res.data.totalCount)
+            });
+    }
+    currentPageChange(pageNumber: number) {
+        this.props.setCurrentPage(pageNumber);
+        axios
+            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
             .then(res => this.props.setUsers(res.data.items));
     }
 
     render() {
+        const pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize);
+        const pages = [];
+        for (let i = 1; i <= pagesCount; i++) pages.push(i);
+
         return (
             <div>
+                {pages.map(p => <span
+                    className={this.props.currentPage === p ? styles.selected : ''}
+                    onClick={()=>{this.currentPageChange(p)}}
+                >{p}</span>)}
                 {this.props.users.map(u => {
                     return (
                         <div key={u.id}>
@@ -37,6 +54,7 @@ export class Users extends React.Component<UsersPropsType> {
                             <span>
                                 <span>
                                     <div>{u.name}</div>
+                                    <div>{u.id}</div>
                                     <div>{u.status}</div>
                                 </span>
                             </span>
