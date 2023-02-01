@@ -3,7 +3,6 @@ import axios from 'axios';
 import {UsersPropsType} from './UsersContainer';
 import styles from './Users.module.css';
 import {avatarURL} from '../../redux/users-reducer';
-import loading from '../../assets/ndqUb.gif';
 import {Preloader} from '../common/Preloader/Preloader';
 
 export class Users extends React.Component<UsersPropsType> {
