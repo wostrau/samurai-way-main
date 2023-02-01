@@ -4,7 +4,7 @@ import {
     followUserAC,
     setCurrentPageAC,
     setTotalUsersCountAC,
-    setUsersAC,
+    setUsersAC, toggleIsFetchingAC,
     unfollowUserAC,
     UsersPageType,
     UsersReducerActionsType,
@@ -20,6 +20,7 @@ type MapDispatchToPropsType = {
     unfollowUser: (id: string) => void,
     setCurrentPage: (currentPage: number) => void,
     setTotalUsersCount: (totalUsersCount: number) => void,
+    toggleIsFetching: (isFetching: boolean) => void,
 };
 
 export type UsersPropsType = UsersPageType & MapDispatchToPropsType;
@@ -30,6 +31,7 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
         totalUsersCount: state.usersPage.totalUsersCount,
         users: state.usersPage.users,
         currentPage: state.usersPage.currentPage,
+        isFetching: state.usersPage.isFetching
     }
 };
 
@@ -40,6 +42,7 @@ const mapDispatchToProps = (dispatch: Dispatch<UsersReducerActionsType>): MapDis
         unfollowUser: (id: string) => dispatch(unfollowUserAC(id)),
         setCurrentPage: (currentPage: number) => dispatch(setCurrentPageAC(currentPage)),
         setTotalUsersCount: (totalUsersCount: number) => dispatch(setTotalUsersCountAC(totalUsersCount)),
+        toggleIsFetching: (isFetching: boolean) => dispatch(toggleIsFetchingAC(isFetching)),
     }
 };
 

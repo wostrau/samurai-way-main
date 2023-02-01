@@ -3,23 +3,29 @@ import axios from 'axios';
 import {UsersPropsType} from './UsersContainer';
 import styles from './Users.module.css';
 import {avatarURL} from '../../redux/users-reducer';
+import loading from '../../assets/ndqUb.gif';
+import {Preloader} from '../common/Preloader/Preloader';
 
 export class Users extends React.Component<UsersPropsType> {
 
     componentDidMount() {
+        this.props.toggleIsFetching(true);
         axios
             .get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then(res => {
-                this.props.setUsers(res.data.items)
-                this.props.setTotalUsersCount(res.data.totalCount)
+                this.props.toggleIsFetching(false);
+                this.props.setUsers(res.data.items);
+                this.props.setTotalUsersCount(res.data.totalCount);
             });
     }
 
     currentPageChange(pageNumber: number) {
+        this.props.toggleIsFetching(true);
         this.props.setCurrentPage(pageNumber);
         axios
             .get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
             .then(res => {
+                this.props.toggleIsFetching(false);
                 this.props.setUsers(res.data.items)
             });
     }
@@ -30,17 +36,20 @@ export class Users extends React.Component<UsersPropsType> {
         for (let i = 1; i <= pagesCount; i++) pages.push(i);
 
         return (
-            <div>
-                {pages.map((p, index) => <span
-                    key={index}
-                    className={this.props.currentPage === p ? styles.selected : ''}
-                    onClick={() => {
-                        this.currentPageChange(p)
-                    }}
-                >{p}</span>)}
-                {this.props.users.map(u => {
-                    return (
-                        <div key={u.id}>
+            <>
+                {this.props.isFetching
+                    ? <Preloader/>
+                    : <div>
+                        {pages.map((p, index) => <span
+                            key={index}
+                            className={this.props.currentPage === p ? styles.selected : ''}
+                            onClick={() => {
+                                this.currentPageChange(p)
+                            }}
+                        >{p}</span>)}
+                        {this.props.users.map(u => {
+                            return (
+                                <div key={u.id}>
                             <span>
                                 <div className={styles.item}>
                                     <img
@@ -56,17 +65,19 @@ export class Users extends React.Component<UsersPropsType> {
                                     }
                                 </div>
                             </span>
-                            <span>
+                                    <span>
                                 <span>
                                     <div>{u.name}</div>
                                     <div>{u.id}</div>
                                     <div>{u.status}</div>
                                 </span>
                             </span>
-                        </div>
-                    );
-                })}
-            </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                }
+            </>
         );
     };
 }
