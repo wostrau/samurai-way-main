@@ -1,9 +1,8 @@
 import React from 'react';
-import {avatarURL} from '../../redux/users-reducer';
-import styles from './Users.module.css';
-import {UsersPropsType} from './UsersContainer';
 import axios from 'axios';
-
+import {UsersPropsType} from './UsersContainer';
+import styles from './Users.module.css';
+import {avatarURL} from '../../redux/users-reducer';
 
 export class Users extends React.Component<UsersPropsType> {
 
@@ -15,11 +14,14 @@ export class Users extends React.Component<UsersPropsType> {
                 this.props.setTotalUsersCount(res.data.totalCount)
             });
     }
+
     currentPageChange(pageNumber: number) {
         this.props.setCurrentPage(pageNumber);
         axios
             .get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
-            .then(res => this.props.setUsers(res.data.items));
+            .then(res => {
+                this.props.setUsers(res.data.items)
+            });
     }
 
     render() {
@@ -29,9 +31,12 @@ export class Users extends React.Component<UsersPropsType> {
 
         return (
             <div>
-                {pages.map(p => <span
+                {pages.map((p, index) => <span
+                    key={index}
                     className={this.props.currentPage === p ? styles.selected : ''}
-                    onClick={()=>{this.currentPageChange(p)}}
+                    onClick={() => {
+                        this.currentPageChange(p)
+                    }}
                 >{p}</span>)}
                 {this.props.users.map(u => {
                     return (
@@ -63,5 +68,5 @@ export class Users extends React.Component<UsersPropsType> {
                 })}
             </div>
         );
-    }
+    };
 }
