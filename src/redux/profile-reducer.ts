@@ -8,6 +8,7 @@ const initialState = {
         {id: '2', message: 'It\'s my first post!', likesCount: 7}
     ] as Array<PostType>,
     newPostText: '',
+    profile: null
 };
 
 export const profileReducer = (state: ProfilePageType = initialState, action: AppActionsType): ProfilePageType => {
@@ -18,6 +19,8 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ap
         }
         case 'UPDATE-NEW-POST-TEXT':
             return {...state, newPostText: action.newText};
+        case 'SET-USER-PROFILE':
+            return {...state, profile: action.profile};
         default:
             return state;
     }
@@ -25,8 +28,12 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ap
 
 export const addPostAC = () => ({type: 'ADD-POST'} as const);
 export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: newText} as const);
+export const setUserProfile = (profile: any) => ({type: 'SET-USER-PROFILE', profile: profile} as const);
 
-export type ProfileReducerActionsType = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC>;
+export type ProfileReducerActionsType =
+    ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostTextAC>
+    | ReturnType<typeof setUserProfile>;
 export type PostType = {
     id: string,
     message: string,

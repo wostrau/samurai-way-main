@@ -10,6 +10,7 @@ export const store: StoreType = {
                 {id: '2', message: 'It\'s my first post!', likesCount: 7}
             ],
             newPostText: '',
+            profile: null
         },
         dialogsPage: {
             dialogs: [
@@ -47,7 +48,8 @@ export type StateType = {
             message: string,
             likesCount: number
         }>,
-        newPostText: string
+        newPostText: string,
+        profile: null
     },
     dialogsPage: {
         dialogs: Array<{

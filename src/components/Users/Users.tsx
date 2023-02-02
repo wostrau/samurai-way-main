@@ -4,6 +4,7 @@ import {UsersPropsType} from './UsersContainer';
 import styles from './Users.module.css';
 import {avatarURL} from '../../redux/users-reducer';
 import {Preloader} from '../common/Preloader/Preloader';
+import {NavLink} from 'react-router-dom';
 
 export class Users extends React.Component<UsersPropsType> {
 
@@ -51,10 +52,12 @@ export class Users extends React.Component<UsersPropsType> {
                                 <div key={u.id}>
                             <span>
                                 <div className={styles.item}>
-                                    <img
-                                        src={u.photos.small ? u.photos.small : avatarURL}
-                                        alt="usersAvatar"
-                                    />
+                                    <NavLink to={`/profile/${u.id}`}>
+                                        <img
+                                            src={u.photos.small ? u.photos.small : avatarURL}
+                                            alt="usersAvatar"
+                                        />
+                                    </NavLink>
                                 </div>
                                 <div>
                                     {
