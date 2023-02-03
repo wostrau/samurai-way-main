@@ -1,12 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-    followUser,
+    followUserTC,
+    getUsersTC,
     setCurrentPage,
     setTotalUsersCount,
-    setUsers, toggleFollowingInProgress,
+    setUsers,
+    toggleFollowingInProgress,
     toggleIsFetching,
-    unfollowUser,
+    unfollowUserTC,
     UsersPageType,
     UserType
 } from '../../redux/users-reducer';
@@ -15,12 +17,13 @@ import {Users} from './Users';
 
 type MapDispatchToPropsType = {
     setUsers: (users: Array<UserType>) => void,
-    followUser: (id: string) => void,
-    unfollowUser: (id: string) => void,
     setCurrentPage: (currentPage: number) => void,
     setTotalUsersCount: (totalUsersCount: number) => void,
     toggleIsFetching: (isFetching: boolean) => void,
     toggleFollowingInProgress: (id: string, isFetching: boolean) => void,
+    getUsers: (currentPage: number, pageSize: number) => void,
+    followUser: (id: string) => void,
+    unfollowUser: (id: string) => void,
 };
 
 export type UsersPropsType = UsersPageType & MapDispatchToPropsType;
@@ -38,11 +41,12 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
 
 export const UsersContainer = connect(mapStateToProps, {
     setUsers,
-    followUser,
-    unfollowUser,
     setCurrentPage,
     setTotalUsersCount,
     toggleIsFetching,
-    toggleFollowingInProgress
+    toggleFollowingInProgress,
+    getUsers: getUsersTC,
+    followUser: followUserTC,
+    unfollowUser: unfollowUserTC
 } as MapDispatchToPropsType)(Users);
 

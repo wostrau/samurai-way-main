@@ -1,4 +1,6 @@
 import {AppActionsType} from './redux-store';
+import {usersAPI} from '../api/api';
+import {Dispatch} from 'redux';
 
 export const avatarURL = 'https://manager.almadarisp.com/user/img/user.png'
 const initialState = {
@@ -55,6 +57,37 @@ export const toggleFollowingInProgress = (id: string, isFetching: boolean) => ({
     id: id,
     isFetching: isFetching,
 } as const);
+
+export const getUsersTC = (currentPage: number, pageSize: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(toggleIsFetching(true));
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetching(false));
+            dispatch(setUsers(data.items));
+            dispatch(setTotalUsersCount(data.totalCount));
+        });
+    };
+};
+export const followUserTC = (id: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(toggleFollowingInProgress(id, true));
+        usersAPI.followUser(id)
+            .then(data => {
+                if (data.resultCode === 0) dispatch(followUser(id));
+                dispatch(toggleFollowingInProgress(id, false));
+            });
+    };
+};
+export const unfollowUserTC = (id: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(toggleFollowingInProgress(id, true));
+        usersAPI.unfollowUser(id)
+            .then(data => {
+                if (data.resultCode === 0) dispatch(unfollowUser(id));
+                dispatch(toggleFollowingInProgress(id, false));
+            });
+    };
+};
 
 export type UserType = {
     id: string,

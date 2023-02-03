@@ -1,31 +1,28 @@
 import React from 'react';
-import axios from 'axios';
 import {UsersPropsType} from './UsersContainer';
 import styles from './Users.module.css';
 import {avatarURL} from '../../redux/users-reducer';
 import {Preloader} from '../common/Preloader/Preloader';
 import {NavLink} from 'react-router-dom';
-import {usersAPI} from '../../api/api';
 
 export class Users extends React.Component<UsersPropsType> {
 
     componentDidMount() {
-        this.props.toggleIsFetching(true);
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-            this.props.toggleIsFetching(false);
-            this.props.setUsers(data.items);
-            this.props.setTotalUsersCount(data.totalCount);
-        });
-    }
+        this.props.getUsers(this.props.currentPage, this.props.pageSize);
+    };
 
     currentPageChange(pageNumber: number) {
-        this.props.toggleIsFetching(true);
         this.props.setCurrentPage(pageNumber);
-        usersAPI.getUsers(pageNumber, this.props.pageSize).then(data => {
-            this.props.toggleIsFetching(false);
-            this.props.setUsers(data.items)
-        });
-    }
+        this.props.getUsers(pageNumber, this.props.pageSize);
+    };
+
+    followUser(id: string) {
+        this.props.followUser(id);
+    };
+
+    unfollowUser(id: string) {
+        this.props.unfollowUser(id);
+    };
 
     render() {
         const pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize);
@@ -61,32 +58,12 @@ export class Users extends React.Component<UsersPropsType> {
                                         u.followed
                                             ? <button
                                                 disabled={this.props.followingInProgress.some(id => id === u.id)}
-                                                onClick={() => {
-                                                this.props.toggleFollowingInProgress(u.id, true);
-                                                axios
-                                                    .delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                                                        withCredentials: true,
-                                                        headers: {'API-KEY': '96e14868-2995-4951-a0b1-5ff5cded4fa9'}
-                                                    })
-                                                    .then(res => {
-                                                        if (res.data.resultCode === 0) this.props.unfollowUser(u.id);
-                                                        this.props.toggleFollowingInProgress(u.id, false);
-                                                    });
-                                            }}>Unfollow</button>
+                                                onClick={()=>this.unfollowUser(u.id)}
+                                            >Unfollow</button>
                                             : <button
                                                 disabled={this.props.followingInProgress.some(id => id === u.id)}
-                                                onClick={() => {
-                                                this.props.toggleFollowingInProgress(u.id, true);
-                                                axios
-                                                    .post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, null, {
-                                                        withCredentials: true,
-                                                        headers: {'API-KEY': '96e14868-2995-4951-a0b1-5ff5cded4fa9'}
-                                                    })
-                                                    .then(res => {
-                                                        if (res.data.resultCode === 0) this.props.followUser(u.id);
-                                                        this.props.toggleFollowingInProgress(u.id, false);
-                                                    });
-                                            }}>Follow</button>
+                                                onClick={()=>this.followUser(u.id)}
+                                            >Follow</button>
                                     }
                                         </div>
                                         </span>
