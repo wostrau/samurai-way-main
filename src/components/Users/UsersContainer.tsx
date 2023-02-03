@@ -34,17 +34,6 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
     }
 };
 
-/*const mapDispatchToProps = (dispatch: Dispatch<UsersReducerActionsType>): MapDispatchToPropsType => {
-    return {
-        setUsers: (users: Array<UserType>) => dispatch(setUsersAC(users)),
-        followUser: (id: string) => dispatch(followUserAC(id)),
-        unfollowUser: (id: string) => dispatch(unfollowUserAC(id)),
-        setCurrentPage: (currentPage: number) => dispatch(setCurrentPageAC(currentPage)),
-        setTotalUsersCount: (totalUsersCount: number) => dispatch(setTotalUsersCountAC(totalUsersCount)),
-        toggleIsFetching: (isFetching: boolean) => dispatch(toggleIsFetchingAC(isFetching)),
-    }
-};*/
-
 export const UsersContainer = connect(mapStateToProps, {
     setUsers,
     followUser,
@@ -52,4 +41,5 @@ export const UsersContainer = connect(mapStateToProps, {
     setCurrentPage,
     setTotalUsersCount,
     toggleIsFetching
-})(Users);
+} as MapDispatchToPropsType)(Users);
+
