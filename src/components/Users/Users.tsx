@@ -11,7 +11,11 @@ export class Users extends React.Component<UsersPropsType> {
     componentDidMount() {
         this.props.toggleIsFetching(true);
         axios
-            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
+                {
+                    withCredentials: true,
+                    headers: {'API-KEY': '96e14868-2995-4951-a0b1-5ff5cded4fa9'}
+                })
             .then(res => {
                 this.props.toggleIsFetching(false);
                 this.props.setUsers(res.data.items);
@@ -23,7 +27,11 @@ export class Users extends React.Component<UsersPropsType> {
         this.props.toggleIsFetching(true);
         this.props.setCurrentPage(pageNumber);
         axios
-            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
+                {
+                    withCredentials: true,
+                    headers: {'API-KEY': '96e14868-2995-4951-a0b1-5ff5cded4fa9'}
+                })
             .then(res => {
                 this.props.toggleIsFetching(false);
                 this.props.setUsers(res.data.items)
@@ -62,18 +70,36 @@ export class Users extends React.Component<UsersPropsType> {
                                 <div>
                                     {
                                         u.followed
-                                            ? <button onClick={() => this.props.unfollowUser(u.id)}>Unfollow</button>
-                                            : <button onClick={() => this.props.followUser(u.id)}>Follow</button>
+                                            ? <button onClick={() => {
+                                                axios
+                                                    .delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
+                                                        withCredentials: true,
+                                                        headers: {'API-KEY': '96e14868-2995-4951-a0b1-5ff5cded4fa9'}
+                                                    })
+                                                    .then(res => {
+                                                        if (res.data.resultCode === 0) this.props.unfollowUser(u.id);
+                                                    });
+                                            }}>Unfollow</button>
+                                            : <button onClick={() => {
+                                                axios
+                                                    .post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, null, {
+                                                        withCredentials: true,
+                                                        headers: {'API-KEY': '96e14868-2995-4951-a0b1-5ff5cded4fa9'}
+                                                    })
+                                                    .then(res => {
+                                                        if (res.data.resultCode === 0) this.props.followUser(u.id);
+                                                    });
+                                            }}>Follow</button>
                                     }
-                                </div>
-                            </span>
+                                        </div>
+                                        </span>
                                     <span>
-                                <span>
-                                    <div>{u.name}</div>
-                                    <div>{u.id}</div>
-                                    <div>{u.status}</div>
-                                </span>
-                            </span>
+                                        <span>
+                                        <div>{u.name}</div>
+                                        <div>{u.id}</div>
+                                        <div>{u.status}</div>
+                                        </span>
+                                        </span>
                                 </div>
                             );
                         })}
