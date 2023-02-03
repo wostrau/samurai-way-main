@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './ProfileInfo.module.css';
 import {Preloader} from '../../common/Preloader/Preloader';
+import {avatarURL} from '../../../redux/users-reducer';
 
 export const ProfileInfo = (props: any) => {
     if (!props.profile) return <Preloader/>;
@@ -13,7 +14,14 @@ export const ProfileInfo = (props: any) => {
                 />
             </div>
             <div className={styles.descriptionBlock}>
-                <img src={props.profile.photos.small} alt='userAvatar'/>
+                <img
+                    style={{height: '200px'}}
+                    src={props.profile.photos.small
+                    ? props.profile.photos.small
+                    : avatarURL
+                } alt="userAvatar"/>
+                <p>{props.profile.fullName}</p>
+                <p>{props.profile.aboutMe}</p>
             </div>
         </div>
     );
