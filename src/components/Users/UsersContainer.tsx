@@ -4,7 +4,7 @@ import {
     followUser,
     setCurrentPage,
     setTotalUsersCount,
-    setUsers,
+    setUsers, toggleFollowingInProgress,
     toggleIsFetching,
     unfollowUser,
     UsersPageType,
@@ -20,6 +20,7 @@ type MapDispatchToPropsType = {
     setCurrentPage: (currentPage: number) => void,
     setTotalUsersCount: (totalUsersCount: number) => void,
     toggleIsFetching: (isFetching: boolean) => void,
+    toggleFollowingInProgress: (id: string, isFetching: boolean) => void,
 };
 
 export type UsersPropsType = UsersPageType & MapDispatchToPropsType;
@@ -30,7 +31,8 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
         totalUsersCount: state.usersPage.totalUsersCount,
         users: state.usersPage.users,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress
     }
 };
 
@@ -40,6 +42,7 @@ export const UsersContainer = connect(mapStateToProps, {
     unfollowUser,
     setCurrentPage,
     setTotalUsersCount,
-    toggleIsFetching
+    toggleIsFetching,
+    toggleFollowingInProgress
 } as MapDispatchToPropsType)(Users);
 

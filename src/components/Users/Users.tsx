@@ -59,7 +59,10 @@ export class Users extends React.Component<UsersPropsType> {
                                 <div>
                                     {
                                         u.followed
-                                            ? <button onClick={() => {
+                                            ? <button
+                                                disabled={this.props.followingInProgress.some(id => id === u.id)}
+                                                onClick={() => {
+                                                this.props.toggleFollowingInProgress(u.id, true);
                                                 axios
                                                     .delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
                                                         withCredentials: true,
@@ -67,9 +70,13 @@ export class Users extends React.Component<UsersPropsType> {
                                                     })
                                                     .then(res => {
                                                         if (res.data.resultCode === 0) this.props.unfollowUser(u.id);
+                                                        this.props.toggleFollowingInProgress(u.id, false);
                                                     });
                                             }}>Unfollow</button>
-                                            : <button onClick={() => {
+                                            : <button
+                                                disabled={this.props.followingInProgress.some(id => id === u.id)}
+                                                onClick={() => {
+                                                this.props.toggleFollowingInProgress(u.id, true);
                                                 axios
                                                     .post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, null, {
                                                         withCredentials: true,
@@ -77,6 +84,7 @@ export class Users extends React.Component<UsersPropsType> {
                                                     })
                                                     .then(res => {
                                                         if (res.data.resultCode === 0) this.props.followUser(u.id);
+                                                        this.props.toggleFollowingInProgress(u.id, false);
                                                     });
                                             }}>Follow</button>
                                     }
