@@ -15,14 +15,15 @@ type MapDispatchToPropsType = {
     updateNewMessageBody: (message: string) => void
 };
 
-export type DialogsPropsType = DialogsPageType & MapDispatchToPropsType;
+export type DialogsPropsType = DialogsPageType & MapDispatchToPropsType & any;
 
-const mapStateToProps = (state: AppStateType): DialogsPageType => {
+const mapStateToProps = (state: AppStateType): any => {
     return {
         dialogs: state.dialogsPage.dialogs,
         messages: state.dialogsPage.messages,
         newMessageBody: state.dialogsPage.newMessageBody,
-    }
+        isAuth: state.auth.isAuth
+    };
 };
 const mapDispatchToProps = (dispatch: Dispatch<DialogsReducerActionsType>): MapDispatchToPropsType => {
     return {
@@ -32,7 +33,7 @@ const mapDispatchToProps = (dispatch: Dispatch<DialogsReducerActionsType>): MapD
         updateNewMessageBody: (message: string) => {
             dispatch(updateNewMessageBodyAC(message));
         },
-    }
+    };
 };
 
 export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);

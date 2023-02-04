@@ -3,26 +3,12 @@ import styles from './Dialogs.module.css';
 import {DialogItem} from './DialogItem/DialogItem';
 import {Message} from './Message/Message';
 import {DialogsPropsType} from './DialogsContainer';
+import {Redirect} from 'react-router-dom';
 
 
 export const Dialogs = (props: DialogsPropsType) => {
-    const dialogElements = props.dialogs.map(d => {
-        return (
-            <DialogItem
-                key={d.id}
-                id={d.id}
-                name={d.name}
-            />
-        );
-    });
-    const messagesElements = props.messages.map(m => {
-        return (
-            <Message
-                key={m.id}
-                message={m.message}
-            />
-        );
-    });
+    const dialogElements = props.dialogs.map((d: any) => <DialogItem key={d.id} id={d.id} name={d.name}/>);
+    const messagesElements = props.messages.map((m: any) => <Message key={m.id} message={m.message}/>);
 
     const onSendMessageClickHandler = () => {
       props.sendMessage();
@@ -31,13 +17,17 @@ export const Dialogs = (props: DialogsPropsType) => {
         props.updateNewMessageBody(event.currentTarget.value);
     };
 
+    if (!props.isAuth) return <Redirect to={'/login'}/>;
+
     return (
         <div className={styles.dialogs}>
             <div className={styles.dialogsItems}>
                 {dialogElements}
             </div>
             <div className={styles.messages}>
-                <div>{messagesElements}</div>
+                <div>
+                    {messagesElements}
+                </div>
                 <div>
                     <div>
                         <textarea
