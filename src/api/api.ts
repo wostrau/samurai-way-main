@@ -22,7 +22,20 @@ export const usersAPI = {
         return instance
             .delete(`/follow/${id}`)
             .then(response => response.data);
-    }
+    },
+    getUserProfile(id: string) {
+        return instance
+            .get(`/profile/${id}`)
+            .then(response => response.data);
+    },
+};
+
+export const authAPI = {
+    me() {
+        return instance
+            .get('/auth/me')
+            .then(response => response.data);
+    },
 };
 
 
