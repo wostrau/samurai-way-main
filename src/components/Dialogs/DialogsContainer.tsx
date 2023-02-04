@@ -9,6 +9,7 @@ import {Dialogs} from './Dialogs';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {Dispatch} from 'redux';
+import {LoginRedirect} from '../../hoc/LoginRedirect';
 
 type MapDispatchToPropsType = {
     sendMessage: () => void
@@ -17,12 +18,11 @@ type MapDispatchToPropsType = {
 
 export type DialogsPropsType = DialogsPageType & MapDispatchToPropsType & any;
 
-const mapStateToProps = (state: AppStateType): any => {
+const mapStateToProps = (state: AppStateType): DialogsPageType => {
     return {
         dialogs: state.dialogsPage.dialogs,
         messages: state.dialogsPage.messages,
         newMessageBody: state.dialogsPage.newMessageBody,
-        isAuth: state.auth.isAuth
     };
 };
 const mapDispatchToProps = (dispatch: Dispatch<DialogsReducerActionsType>): MapDispatchToPropsType => {
@@ -36,4 +36,5 @@ const mapDispatchToProps = (dispatch: Dispatch<DialogsReducerActionsType>): MapD
     };
 };
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+const LoginRedirectComponent = LoginRedirect(Dialogs)
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(LoginRedirectComponent);

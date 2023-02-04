@@ -14,6 +14,7 @@ import {
 } from '../../redux/users-reducer';
 import {AppStateType} from '../../redux/redux-store';
 import {Users} from './Users';
+import {LoginRedirect} from '../../hoc/LoginRedirect';
 
 type MapDispatchToPropsType = {
     setUsers: (users: Array<UserType>) => void,
@@ -39,6 +40,7 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
     }
 };
 
+const withRedirect = LoginRedirect(Users)
 export const UsersContainer = connect(mapStateToProps, {
     setUsers,
     setCurrentPage,
@@ -48,5 +50,5 @@ export const UsersContainer = connect(mapStateToProps, {
     getUsers: getUsersTC,
     followUser: followUserTC,
     unfollowUser: unfollowUserTC
-} as MapDispatchToPropsType)(Users);
+} as MapDispatchToPropsType)(withRedirect);
 
