@@ -23,9 +23,22 @@ export const usersAPI = {
             .delete(`/follow/${id}`)
             .then(response => response.data);
     },
+};
+
+export const profileAPI = {
     getUserProfile(id: string) {
         return instance
             .get(`/profile/${id}`)
+            .then(response => response.data);
+    },
+    getUserStatus(id: string) {
+        return instance
+            .get(`/status/${id}`)
+            .then(response => response.data);
+    },
+    updateUserProfile(status: string) {
+        return instance
+            .put('/status', {status: status})
             .then(response => response.data);
     },
 };

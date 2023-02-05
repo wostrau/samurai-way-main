@@ -7,7 +7,10 @@ import {AppStateType} from '../../redux/redux-store';
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
 import {compose} from 'redux';
 
-type MapDispatchToPropsType = { getUserProfile: (id: string) => void };
+type MapDispatchToPropsType = {
+    getUserProfile: (id: string) => void
+    getUserStatus: (id: string) => void
+};
 export type ProfileResponseType = {
     userId: number,
     lookingForAJob: boolean,
@@ -26,7 +29,7 @@ export type ProfileResponseType = {
     photos: { small: string, large: string }
 };
 type ProfileContainerPropsType =
-    { profile: ProfileResponseType | null }
+    { profile: ProfileResponseType }
     & MapDispatchToPropsType
     & RouteComponentProps<PathParamsType>;
 type PathParamsType = { userId: string };
@@ -37,21 +40,28 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         let userId = this.props.match.params.userId;
         if (!userId) userId = '25802';
         this.props.getUserProfile(userId);
+        this.props.getUserStatus(userId);
     }
 
     render() {
-        return <Profile profile={this.props.profile}/>;
+        return <Profile {...this.props}/>;
     }
 }
 
-const mapStateToProps = (state: AppStateType): { profile: ProfileResponseType | null } => {
+
+type MapStateToPropsType = {
+    profile: ProfileResponseType
+    status: string
+};
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         profile: state.profilePage.profile,
+        status: state.profilePage.status
     }
 };
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile} as MapDispatchToPropsType),
+    connect(mapStateToProps, {getUserProfile, getUserStatus} as MapDispatchToPropsType),
     withRouter,
     withRedirectToLogin
 )(ProfileContainer);
