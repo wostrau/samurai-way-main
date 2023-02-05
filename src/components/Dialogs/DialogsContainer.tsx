@@ -36,4 +36,7 @@ const mapDispatchToProps = (dispatch: Dispatch<DialogsReducerActionsType>): MapD
     };
 };
 
-export const DialogsContainer = compose(withRedirectToLogin, connect(mapStateToProps, mapDispatchToProps))(Dialogs);
+export const DialogsContainer = compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    withRedirectToLogin
+)(Dialogs);

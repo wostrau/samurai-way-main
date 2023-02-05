@@ -2,13 +2,36 @@ import React from 'react';
 import {Profile} from './Profile';
 import {connect} from 'react-redux';
 import {getUserProfile} from '../../redux/profile-reducer';
-import {withRouter} from 'react-router-dom';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {AppStateType} from '../../redux/redux-store';
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
 import {compose} from 'redux';
 
+type MapDispatchToPropsType = { getUserProfile: (id: string) => void };
+export type ProfileResponseType = {
+    userId: number,
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    fullName: string,
+    contacts: {
+        github: string,
+        vk: string,
+        facebook: string,
+        instagram: string,
+        twitter: string,
+        website: string,
+        youtube: string,
+        mainLink: string
+    },
+    photos: { small: string, large: string }
+};
+type ProfileContainerPropsType =
+    { profile: ProfileResponseType | null }
+    & MapDispatchToPropsType
+    & RouteComponentProps<PathParamsType>;
+type PathParamsType = { userId: string };
 
-class ProfileContainer extends React.Component<any, any> {
+class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId;
@@ -21,18 +44,17 @@ class ProfileContainer extends React.Component<any, any> {
     }
 }
 
-const mapStateToProps = (state: AppStateType) => {
+const mapStateToProps = (state: AppStateType): { profile: ProfileResponseType | null } => {
     return {
         profile: state.profilePage.profile,
     }
 };
 
-export default compose(
-    connect(mapStateToProps, {getUserProfile}),
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {getUserProfile} as MapDispatchToPropsType),
     withRouter,
     withRedirectToLogin
 )(ProfileContainer);
-
 
 
 

@@ -41,8 +41,7 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
     }
 };
 
-export const UsersContainer = compose(
-    withRedirectToLogin,
+export const UsersContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {
         setUsers,
         setCurrentPage,
@@ -52,6 +51,7 @@ export const UsersContainer = compose(
         getUsers: getUsersTC,
         followUser: followUserTC,
         unfollowUser: unfollowUserTC
-    } as MapDispatchToPropsType)
+    } as MapDispatchToPropsType),
+    withRedirectToLogin
 )(Users);
 
