@@ -8,8 +8,8 @@ import {
 import {Dialogs} from './Dialogs';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
-import {Dispatch} from 'redux';
-import {LoginRedirect} from '../../hoc/LoginRedirect';
+import {compose, Dispatch} from 'redux';
+import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
 
 type MapDispatchToPropsType = {
     sendMessage: () => void
@@ -36,5 +36,4 @@ const mapDispatchToProps = (dispatch: Dispatch<DialogsReducerActionsType>): MapD
     };
 };
 
-const LoginRedirectComponent = LoginRedirect(Dialogs)
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(LoginRedirectComponent);
+export const DialogsContainer = compose(withRedirectToLogin, connect(mapStateToProps, mapDispatchToProps))(Dialogs);
