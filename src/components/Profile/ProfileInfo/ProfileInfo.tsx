@@ -18,8 +18,8 @@ export const ProfileInfo = (props: any) => {
                 <img
                     style={{height: '200px'}}
                     src={props.profile.photos.small
-                    ? props.profile.photos.small
-                    : avatarURL
+                            ? props.profile.photos.small
+                            : avatarURL
                 } alt="userAvatar"/>
                 <p>{props.profile.fullName}</p>
                 <p>{props.profile.aboutMe}</p>

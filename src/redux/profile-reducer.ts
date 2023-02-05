@@ -25,7 +25,8 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ap
             return {...state, newPostText: action.newText};
         case 'SET-USER-PROFILE':
             return {...state, profile: action.profile};
-
+        case 'SET-USER-STATUS':
+            return {...state, status: action.status};
         default:
             return state;
     }
@@ -33,7 +34,10 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ap
 
 export const addPostAC = () => ({type: 'ADD-POST'} as const);
 export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: newText} as const);
-export const setUserProfileAC = (profile: ProfileResponseType) => ({type: 'SET-USER-PROFILE', profile: profile} as const);
+export const setUserProfileAC = (profile: ProfileResponseType) => ({
+    type: 'SET-USER-PROFILE',
+    profile: profile
+} as const);
 export const setUserStatusAC = (status: string) => ({type: 'SET-USER-STATUS', status: status} as const);
 
 export const getUserProfile = (id: string) => {
@@ -48,6 +52,17 @@ export const getUserStatus = (id: string) => {
         profileAPI
             .getUserStatus(id)
             .then(data => dispatch(setUserStatusAC(data)));
+    };
+};
+export const updateUserStatus = (status: string) => {
+    return (dispatch: Dispatch) => {
+        profileAPI
+            .updateUserStatus(status)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(setUserStatusAC(status));
+                }
+            });
     };
 };
 

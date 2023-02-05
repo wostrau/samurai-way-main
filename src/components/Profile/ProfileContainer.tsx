@@ -1,7 +1,7 @@
 import React from 'react';
 import {Profile} from './Profile';
 import {connect} from 'react-redux';
-import {getUserProfile} from '../../redux/profile-reducer';
+import {getUserProfile, getUserStatus, updateUserStatus} from '../../redux/profile-reducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {AppStateType} from '../../redux/redux-store';
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
@@ -10,6 +10,7 @@ import {compose} from 'redux';
 type MapDispatchToPropsType = {
     getUserProfile: (id: string) => void
     getUserStatus: (id: string) => void
+    updateUserStatus: (status: string) => void
 };
 export type ProfileResponseType = {
     userId: number,
@@ -44,7 +45,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     }
 
     render() {
-        return <Profile {...this.props}/>;
+        return <Profile profile={this.props.profile}/>;
     }
 }
 
@@ -61,7 +62,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 };
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile, getUserStatus} as MapDispatchToPropsType),
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus} as MapDispatchToPropsType),
     withRouter,
     withRedirectToLogin
 )(ProfileContainer);
