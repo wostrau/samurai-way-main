@@ -3,7 +3,7 @@ import React from 'react';
 export class ProfileStatus extends React.Component<{ status: string }> {
     state = {editMode: false}
 
-    activateEditMode() {
+    activateEditMode = () => {
         this.setState({editMode: true});
     }
 
@@ -22,7 +22,7 @@ export class ProfileStatus extends React.Component<{ status: string }> {
                             onBlur={this.deactivateEditMode.bind(this)}
                             onKeyPress={(e) => e.key === 'Enter' && this.deactivateEditMode()}
                         /></div>
-                        : <div><span onDoubleClick={this.activateEditMode.bind(this)}>{this.props.status}</span></div>
+                        : <div><span onDoubleClick={this.activateEditMode}>{this.props.status}</span></div>
                 }
             </>
         );
