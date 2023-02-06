@@ -33,12 +33,12 @@ export const profileAPI = {
     },
     getUserStatus(id: string) {
         return instance
-            .get(`/status/${id}`)
+            .get(`/profile/status/${id}`)
             .then(response => response.data);
     },
     updateUserStatus(status: string) {
         return instance
-            .put('/status', {status: status})
+            .put('/profile/status', {status: status})
             .then(response => response.data);
     },
 };

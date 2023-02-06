@@ -1,29 +1,35 @@
 import React from 'react';
 import styles from './ProfileInfo.module.css';
 import {Preloader} from '../../common/Preloader/Preloader';
-import {avatarURL} from '../../../redux/users-reducer';
 import {ProfileStatus} from './ProfileStatus';
+import {ProfileResponseType} from '../ProfileContainer';
+import userAvatar2 from '../../../assets/userAvatar2.png';
 
-export const ProfileInfo = (props: any) => {
-    if (!props.profile) return <Preloader/>;
+type ProfileInfoPropsType = {
+    status: string
+    profile: ProfileResponseType,
+    updateUserStatus: (status: string) => void,
+}
+
+export const ProfileInfo = (props: ProfileInfoPropsType) => {
+
+    if (!props.profile) {
+        return <Preloader/>;
+    }
+
     return (
         <div>
-            {/*<div>
-                <img
-                    src="https://media.istockphoto.com/id/1153191469/photo/cityscape-of-ortygia-the-historical-center-of-syracuse-sicily-italy.jpg?s=612x612&w=0&k=20&c=wJGOH1egi1M4c3FAthyjV927AGPcBKcD-uACgFCIISw="
-                    alt=""
-                />
-            </div>*/}
             <div className={styles.descriptionBlock}>
                 <img
                     style={{height: '200px'}}
-                    src={props.profile.photos.small
-                            ? props.profile.photos.small
-                            : avatarURL
-                } alt="userAvatar"/>
+                    src={props.profile.photos.large || userAvatar2}
+                    alt="userAvatar"/>
                 <p>{props.profile.fullName}</p>
-                <p>{props.profile.aboutMe}</p>
-                <ProfileStatus status={'Hello my friends!'}/>
+                <p>{props.profile.userId}</p>
+                <ProfileStatus
+                    status={props.status}
+                    updateUserStatus={props.updateUserStatus}
+                />
             </div>
         </div>
     );

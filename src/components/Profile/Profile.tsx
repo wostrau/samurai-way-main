@@ -3,11 +3,20 @@ import {ProfileInfo} from './ProfileInfo/ProfileInfo';
 import {MyPostsContainer} from './MyPosts/MyPostsContainer';
 import {ProfileResponseType} from './ProfileContainer';
 
+type ProfilePropsType = {
+    status: string
+    profile: ProfileResponseType,
+    updateUserStatus: (status: string) => void,
+}
 
-export const Profile = (props: { profile: ProfileResponseType | null }) => {
+export const Profile = (props: ProfilePropsType) => {
     return (
         <div>
-            <ProfileInfo profile={props.profile}/>
+            <ProfileInfo
+                status={props.status}
+                profile={props.profile}
+                updateUserStatus={props.updateUserStatus}
+            />
             <MyPostsContainer/>
         </div>
     );

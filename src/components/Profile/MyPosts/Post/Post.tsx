@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Post.module.css';
+import userAvatar2 from '../../../../assets/userAvatar2.png';
 
 type PostPropsType = {
     message: string
@@ -13,7 +14,7 @@ export const Post = (props: PostPropsType) => {
                 className={styles.item}
             >
                 <img
-                    src="https://manager.almadarisp.com/user/img/user.png"
+                    src={userAvatar2}
                     alt="usersAvatar"
                 />
                 {props.message}

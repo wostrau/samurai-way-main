@@ -2,7 +2,7 @@ import {AppActionsType} from './redux-store';
 import {usersAPI} from '../api/api';
 import {Dispatch} from 'redux';
 
-export const avatarURL = 'https://manager.almadarisp.com/user/img/user.png'
+
 const initialState = {
     users: [] as Array<UserType>,
     pageSize: 10,
