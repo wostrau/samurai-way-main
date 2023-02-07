@@ -9,7 +9,7 @@ export const Header = (props: AuthPropsType) => {
             <img src="src/components/Header/Header" alt=""/>
             <div className={styles.loginBlock}>
                 {props.isAuth
-                ? props.login
+                ? <div>{props.login} / <button onClick={props.logout}>Log OUT</button></div>
                 : <NavLink to={'/login'}>Login</NavLink>}
             </div>
         </header>

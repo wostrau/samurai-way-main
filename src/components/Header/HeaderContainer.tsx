@@ -1,6 +1,6 @@
 import React from 'react';
 import {AppStateType} from '../../redux/redux-store';
-import {AuthType, getAuthUserData} from '../../redux/auth-reducer';
+import {AuthType, getAuthUserData, logout} from '../../redux/auth-reducer';
 import {connect} from 'react-redux';
 import {Header} from './Header';
 import {compose} from 'redux';
@@ -25,12 +25,15 @@ const mapStateToProps = (state: AppStateType): AuthType => {
     };
 };
 
-type MapDispatchToPropsType = { getAuthUserData: () => void };
+type MapDispatchToPropsType = {
+    getAuthUserData: () => void
+    logout: () => void
+};
 
 export type AuthPropsType = AuthType & MapDispatchToPropsType;
 
 export default compose(
-    connect(mapStateToProps, {getAuthUserData} as MapDispatchToPropsType),
+    connect(mapStateToProps, {getAuthUserData, logout} as MapDispatchToPropsType),
 )(HeaderContainer);
 
 

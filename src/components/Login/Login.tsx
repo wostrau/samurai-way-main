@@ -2,9 +2,13 @@ import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
 import {Input} from '../common/FormControls/FormControls';
 import {requiredField} from '../../utilities/validators';
+import {connect} from 'react-redux';
+import {login, logout} from '../../redux/auth-reducer';
+import {AppStateType} from '../../redux/redux-store';
+import {Redirect} from 'react-router-dom';
 
 type FormDataType = {
-    login: string
+    email: string
     password: string
     rememberMe: boolean
 }
@@ -14,15 +18,16 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
         <form onSubmit={props.handleSubmit}>
             <div>
                 <Field
-                    name={'login'}
+                    name={'email'}
                     component={Input}
                     validate={[requiredField]}
-                    placeholder={'Login'}
+                    placeholder={'Emil'}
                 />
             </div>
             <div>
                 <Field
                     name={'password'}
+                    type={'password'}
                     component={Input}
                     validate={[requiredField]}
                     placeholder={'Password'}
@@ -44,15 +49,26 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
 
 const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm);
 
-export const Login = () => {
+const Login = (props: mDTPType & mSTPType) => {
     const onSubmit = (formData: FormDataType) => {
-        console.log(formData)
+        const {email, password, rememberMe} = formData;
+        props.login(email, password, rememberMe);
     };
 
-    return (
-        <div>
-            <h1>LOGIN</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
-        </div>
-    );
+    if (props.isAuth) return <Redirect to={'/profile'}/>;
+
+        return (
+            <div>
+                <h1>LOGIN</h1>
+                <LoginReduxForm onSubmit={onSubmit}/>
+            </div>
+        );
 };
+
+type mDTPType = {
+    login: (email: string, password: string, rememberMe: boolean) => void
+    logout: () => void
+}
+type mSTPType = { isAuth: boolean }
+const mapStateToProps = (state: AppStateType) => ({isAuth: state.auth.isAuth} as mSTPType);
+export default connect(mapStateToProps, {login, logout} as mDTPType)(Login);
