@@ -22,7 +22,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
             <div className={styles.descriptionBlock}>
                 <img
                     style={{height: '200px'}}
-                    src={props.profile.photos.large || userAvatar2}
+                    src={userAvatar2}
                     alt="userAvatar"/>
                 <p>{props.profile.fullName}</p>
                 <p>{props.profile.userId}</p>
