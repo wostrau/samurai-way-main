@@ -1,21 +1,13 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
 import {MyPostsPropsType} from './MyPostsContainer';
-import {reduxForm} from 'redux-form';
+import {Field, reduxForm} from 'redux-form';
 
 
 export const MyPosts = (props: MyPostsPropsType) => {
-
-    const onAddPost = () => {
-        props.addPost();
-    };
-
-    const onPostChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(event.currentTarget.value);
-    };
-
     const postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
+    const onAddPost = (values: any) => props.addPost(values.newPostText);
 
     return (
         <div className={styles.postsBlock}>
@@ -30,22 +22,20 @@ export const MyPosts = (props: MyPostsPropsType) => {
 
 const AddNewPostForm = (props: any) => {
     return (
-        <form>
+        <form onSubmit={props.handleSubmit}>
             <div>
-                    <textarea
-                        value={props.newPostText}
-                        onChange={onPostChangeHandler}
-                        placeholder={'add your post here'}
-                    />
+                <Field
+                    name={'newPostText'}
+                    component={'textarea'}
+                    value={props.newPostText}
+                    placeholder={'add your post here'}
+                />
             </div>
             <div>
-                <button
-                    onClick={addPostHandler}
-                >Add post
-                </button>
+                <button>Add post</button>
             </div>
         </form>
     );
 };
 
-const AddNewPostFormRedux = reduxForm({form: 'myPosts'})(AddNewPostForm)
+const AddNewPostFormRedux = reduxForm({form: 'addNewPostForm'})(AddNewPostForm)
