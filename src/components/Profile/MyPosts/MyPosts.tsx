@@ -2,14 +2,15 @@ import React, {ChangeEvent} from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css';
 import {MyPostsPropsType} from './MyPostsContainer';
-import {Preloader} from '../../common/Preloader/Preloader';
+import {reduxForm} from 'redux-form';
 
 
 export const MyPosts = (props: MyPostsPropsType) => {
 
-    const addPostHandler = () => {
+    const onAddPost = () => {
         props.addPost();
     };
+
     const onPostChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
         props.updateNewPostText(event.currentTarget.value);
     };
@@ -19,24 +20,32 @@ export const MyPosts = (props: MyPostsPropsType) => {
     return (
         <div className={styles.postsBlock}>
             <h3>My posts</h3>
-            <div>
-                <div>
-                    <textarea
-                        value={props.newPostText}
-                        onChange={onPostChangeHandler}
-                        placeholder={'add your post here'}
-                    />
-                </div>
-                <div>
-                    <button
-                        onClick={addPostHandler}
-                    >Add post
-                    </button>
-                </div>
-            </div>
+            <AddNewPostFormRedux onSubmit={onAddPost}/>
             <div className={styles.posts}>
                 {postsElements}
             </div>
         </div>
     );
 };
+
+const AddNewPostForm = (props: any) => {
+    return (
+        <form>
+            <div>
+                    <textarea
+                        value={props.newPostText}
+                        onChange={onPostChangeHandler}
+                        placeholder={'add your post here'}
+                    />
+            </div>
+            <div>
+                <button
+                    onClick={addPostHandler}
+                >Add post
+                </button>
+            </div>
+        </form>
+    );
+};
+
+const AddNewPostFormRedux = reduxForm({form: 'myPosts'})(AddNewPostForm)
