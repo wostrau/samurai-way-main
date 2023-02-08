@@ -1,6 +1,7 @@
 import {AppActionsType} from './redux-store';
 import {Dispatch} from 'redux';
 import {authAPI} from '../api/api';
+import {stopSubmit} from 'redux-form';
 
 const initialState = {
     userId: null,
@@ -33,31 +34,42 @@ export const getAuthUserData = () => {
         authAPI
             .me()
             .then(data => {
-            if (data.resultCode === 0) {
-                const {id, email, login} = data.data;
-                dispatch(setUserAuthDataAC({userId: id, email, login, isAuth: true}));
-            }
-        });
+                if (data.resultCode === 0) {
+                    const {id, email, login} = data.data;
+                    dispatch(setUserAuthDataAC({userId: id, email, login, isAuth: true}));
+                }
+            });
     }
 };
+
 export const login = (email: string, password: string, rememberMe: boolean) => {
-  return (dispatch: (dispatch: (dispatch: Dispatch) => void) => Dispatch) => {
+    return (dispatch: any) => {
         authAPI
             .login(email, password, rememberMe)
             .then(data => {
-            if (data.resultCode === 0) dispatch(getAuthUserData());
-        })
-  };
+                if (data.resultCode === 0) {
+                    dispatch(getAuthUserData());
+                } else {
+                    const errorMessage = data.messages.length > 0
+                        ? data.messages[0]
+                        : 'Email or password is wrong!';
+                    dispatch(stopSubmit('login', {_error: errorMessage}));
+                }
+            });
+    };
 };
 export const logout = () => {
     return (dispatch: Dispatch) => {
         authAPI
             .logout()
             .then(data => {
-            if (data.resultCode === 0) {
-                dispatch(setUserAuthDataAC({userId: null, email: null, login: null, isAuth: false}));
-            }
-        })
+                if (data.resultCode === 0) dispatch(setUserAuthDataAC({
+                    userId: null,
+                    email: null,
+                    login: null,
+                    isAuth: false
+                }));
+            });
     };
 };
 
