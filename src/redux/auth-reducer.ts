@@ -52,7 +52,7 @@ export const login = (email: string, password: string, rememberMe: boolean) => {
                 } else {
                     const errorMessage = data.messages.length > 0
                         ? data.messages[0]
-                        : 'Email or password is wrong!';
+                        : 'some error';
                     dispatch(stopSubmit('login', {_error: errorMessage}));
                 }
             });

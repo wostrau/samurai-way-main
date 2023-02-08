@@ -7,17 +7,20 @@ import {UsersContainer} from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import {LoginContainer} from './components/Login/LoginContainer';
-import {getAuthUserData} from './redux/auth-reducer';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
+import {AppType, initializeApp} from './redux/app-reducer';
+import {AppStateType} from './redux/redux-store';
+import {Preloader} from './components/common/Preloader/Preloader';
 
 
-class App extends React.Component<MapDispatchToPropsType> {
+class App extends React.Component<MapDispatchToPropsType & AppType> {
     componentDidMount() {
-        this.props.getAuthUserData();
+        this.props.initializeApp();
     }
 
     render() {
+        if (!this.props.initialized) return <Preloader/>;
         return (
             <div className="app-wrapper">
                 <HeaderContainer/>
@@ -44,9 +47,9 @@ class App extends React.Component<MapDispatchToPropsType> {
         );
     }
 }
-
-export default compose(
+const mapStateToProps = (state: AppStateType) => ({initialized: state.app.initialized} as AppType);
+export default compose<React.ComponentType>(
     withRouter,
-    connect(null, {getAuthUserData} as MapDispatchToPropsType)
+    connect(mapStateToProps, {initializeApp} as MapDispatchToPropsType)
 )(App);
-type MapDispatchToPropsType = { getAuthUserData: () => void };
+type MapDispatchToPropsType = { initializeApp: () => void };
