@@ -16,6 +16,14 @@ import {AppStateType} from '../../redux/redux-store';
 import {Users} from './Users';
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
 import {compose} from 'redux';
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from '../../redux/users-selectors';
 
 type MapDispatchToPropsType = {
     setUsers: (users: Array<UserType>) => void,
@@ -32,12 +40,12 @@ export type UsersPropsType = UsersPageType & MapDispatchToPropsType;
 
 const mapStateToProps = (state: AppStateType): UsersPageType => {
     return {
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        users: state.usersPage.users,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        users: getUsers(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 };
 
