@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './ProfileInfo.module.css';
 import {Preloader} from '../../common/Preloader/Preloader';
-import {ProfileStatus} from './ProfileStatus';
 import {ProfileResponseType} from '../ProfileContainer';
 import userAvatar2 from '../../../assets/userAvatar2.png';
+import {ProfileStatusWithHooks} from './ProfileStatusWithHooks';
 
 type ProfileInfoPropsType = {
     status: string
@@ -26,7 +26,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                     alt="userAvatar"/>
                 <p>{props.profile.fullName}</p>
                 <p>{props.profile.userId}</p>
-                <ProfileStatus
+                <ProfileStatusWithHooks
                     status={props.status}
                     updateUserStatus={props.updateUserStatus}
                 />
