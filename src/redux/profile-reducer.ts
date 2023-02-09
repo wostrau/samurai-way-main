@@ -2,7 +2,6 @@ import {v1} from 'uuid';
 import {AppActionsType} from './redux-store';
 import {Dispatch} from 'redux';
 import {profileAPI} from '../api/api';
-import {ProfileResponseType} from '../components/Profile/ProfileContainer';
 
 
 const initialState = {
@@ -20,6 +19,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ap
             const newPost = {id: v1(), message: action.newPostText, likesCount: 0};
             return {...state, posts: [newPost, ...state.posts]};
         }
+        case 'DELETE-POST': {
+            return {...state, posts: state.posts.filter(p => p.id !== action.id)};
+        }
         case 'SET-USER-PROFILE':
             return {...state, profile: action.profile};
         case 'SET-USER-STATUS':
@@ -30,12 +32,13 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ap
 };
 
 export const addPostAC = (newPostText: string) => ({type: 'ADD-POST', newPostText: newPostText} as const);
+
+export const deletePostAC = (id: string) => ({type: 'DELETE-POST', id: id} as const);
 export const setUserProfileAC = (profile: ProfileResponseType) => ({
     type: 'SET-USER-PROFILE',
     profile: profile
 } as const);
 export const setUserStatusAC = (status: string) => ({type: 'SET-USER-STATUS', status: status} as const);
-
 export const getUserProfile = (id: string) => {
     return (dispatch: Dispatch) => {
         profileAPI
@@ -43,6 +46,7 @@ export const getUserProfile = (id: string) => {
             .then(data => dispatch(setUserProfileAC(data)));
     };
 };
+
 export const getUserStatus = (id: string) => {
     return (dispatch: Dispatch) => {
         profileAPI
@@ -61,14 +65,32 @@ export const updateUserStatus = (status: string) => {
             });
     };
 };
-
 export type ProfileReducerActionsType =
     ReturnType<typeof addPostAC>
+    | ReturnType<typeof deletePostAC>
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof setUserStatusAC>;
+
 export type PostType = {
     id: string,
     message: string,
     likesCount: number
 };
 export type ProfilePageType = typeof initialState;
+export type ProfileResponseType = {
+    userId: number,
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    fullName: string,
+    contacts: {
+        github: string,
+        vk: string,
+        facebook: string,
+        instagram: string,
+        twitter: string,
+        website: string,
+        youtube: string,
+        mainLink: string
+    },
+    photos: { small: string, large: string }
+};

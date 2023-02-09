@@ -1,7 +1,7 @@
 import React from 'react';
 import {Profile} from './Profile';
 import {connect} from 'react-redux';
-import {getUserProfile, getUserStatus, updateUserStatus} from '../../redux/profile-reducer';
+import {getUserProfile, getUserStatus, ProfileResponseType, updateUserStatus} from '../../redux/profile-reducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {AppStateType} from '../../redux/redux-store';
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
@@ -45,24 +45,6 @@ export default compose<React.ComponentType>(
     withRedirectToLogin
 )(ProfileContainer);
 
-//types -- types -- types -- types -- types -- types
-export type ProfileResponseType = {
-    userId: number,
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string,
-    fullName: string,
-    contacts: {
-        github: string,
-        vk: string,
-        facebook: string,
-        instagram: string,
-        twitter: string,
-        website: string,
-        youtube: string,
-        mainLink: string
-    },
-    photos: { small: string, large: string }
-};
 type PathParamsType = { userId: string };
 type MapDispatchToPropsType = {
     getUserProfile: (id: string) => void

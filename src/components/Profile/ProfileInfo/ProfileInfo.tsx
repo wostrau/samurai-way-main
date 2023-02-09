@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './ProfileInfo.module.css';
 import {Preloader} from '../../common/Preloader/Preloader';
-import {ProfileResponseType} from '../ProfileContainer';
 import userAvatar2 from '../../../assets/userAvatar2.png';
 import {ProfileStatusWithHooks} from './ProfileStatusWithHooks';
+import {ProfileResponseType} from '../../../redux/profile-reducer';
 
 type ProfileInfoPropsType = {
     status: string
