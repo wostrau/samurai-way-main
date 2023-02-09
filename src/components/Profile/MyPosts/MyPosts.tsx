@@ -28,7 +28,7 @@ const AddNewPostForm = (props: InjectedFormProps<FormDataType>) => {
 
 const AddNewPostFormRedux = reduxForm<FormDataType>({form: 'addNewPostForm'})(AddNewPostForm);
 
-export const MyPosts = (props: MyPostsPropsType) => {
+export const MyPosts = React.memo((props: MyPostsPropsType) => {
     const postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
     const onAddPost = (values: FormDataType) => props.addPost(values.newPostText);
 
@@ -41,4 +41,4 @@ export const MyPosts = (props: MyPostsPropsType) => {
             </div>
         </div>
     );
-};
+});
