@@ -18,7 +18,7 @@ const initialState = {
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: AppActionsType): DialogsPageType => {
     switch (action.type) {
-        case 'SEND-MESSAGE': {
+        case 'dialogs/SEND-MESSAGE': {
             const newMessage = {id: v1(), message: action.newMessageBody};
             return {...state, messages: [...state.messages, newMessage]};
         }
@@ -27,7 +27,7 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ap
     }
 };
 
-export const sendMessageAC = (newMessageBody: string) => ({type: 'SEND-MESSAGE', newMessageBody: newMessageBody} as const);
+export const sendMessageAC = (newMessageBody: string) => ({type: 'dialogs/SEND-MESSAGE', newMessageBody} as const);
 
 export type DialogsReducerActionsType = ReturnType<typeof sendMessageAC>;
 export type DialogType = {

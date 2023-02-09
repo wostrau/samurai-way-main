@@ -14,34 +14,34 @@ type FormDataType = {
     rememberMe: boolean
 }
 
-const LoginForm = (props: InjectedFormProps<FormDataType>) => {
+const LoginForm = ({handleSubmit, error}: InjectedFormProps<FormDataType>) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field
                     name={'email'}
+                    placeholder={'Email'}
                     component={Input}
                     validate={[requiredField]}
-                    placeholder={'Email'}
                 />
             </div>
             <div>
                 <Field
                     name={'password'}
-                    type={'password'}
+                    placeholder={'Password'}
                     component={Input}
                     validate={[requiredField]}
-                    placeholder={'Password'}
+                    type={'password'}
                 />
             </div>
             <div>
                 <Field
                     name={'rememberMe'}
-                    component={'input'}
+                    component={Input}
                     type={'checkbox'}
-                />remember MEAW
+                />remember me
             </div>
-            {props.error && <div className={styles.formSummaryError}>{props.error}</div>}
+            {error && <div className={styles.formSummaryError}>{error}</div>}
             <div>
                 <button>Log IN</button>
             </div>
@@ -59,12 +59,12 @@ const Login = (props: mDTPType & mSTPType) => {
 
     if (props.isAuth) return <Redirect to={'/profile'}/>;
 
-        return (
-            <div>
-                <h1>LOGIN</h1>
-                <LoginReduxForm onSubmit={onSubmit}/>
-            </div>
-        );
+    return (
+        <div>
+            <h1>LOGIN</h1>
+            <LoginReduxForm onSubmit={onSubmit}/>
+        </div>
+    );
 };
 
 type mDTPType = {

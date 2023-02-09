@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 import {
     followUserTC,
     getUsersTC,
-    setCurrentPage,
-    setTotalUsersCount,
-    setUsers,
-    toggleFollowingInProgress,
-    toggleIsFetching,
+    setCurrentPageAC,
+    setTotalUsersCountAC,
+    setUsersAC,
+    toggleFollowingInProgressAC,
+    toggleIsFetchingAC,
     unfollowUserTC,
     UsersPageType,
     UserType
@@ -51,11 +51,11 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
 
 export const UsersContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {
-        setUsers,
-        setCurrentPage,
-        setTotalUsersCount,
-        toggleIsFetching,
-        toggleFollowingInProgress,
+        setUsers: setUsersAC,
+        setCurrentPage: setCurrentPageAC,
+        setTotalUsersCount: setTotalUsersCountAC,
+        toggleIsFetching: toggleIsFetchingAC,
+        toggleFollowingInProgress: toggleFollowingInProgressAC,
         getUsers: getUsersTC,
         followUser: followUserTC,
         unfollowUser: unfollowUserTC

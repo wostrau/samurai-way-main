@@ -14,7 +14,7 @@ import {AppStateType} from './redux/redux-store';
 import {Preloader} from './components/common/Preloader/Preloader';
 
 
-class App extends React.Component<MapDispatchToPropsType & AppType> {
+class App extends React.Component<DispatchToPropsType & AppType> {
     componentDidMount() {
         this.props.initializeApp();
     }
@@ -47,9 +47,9 @@ class App extends React.Component<MapDispatchToPropsType & AppType> {
         );
     }
 }
+
 const mapStateToProps = (state: AppStateType) => ({initialized: state.app.initialized} as AppType);
-export default compose<React.ComponentType>(
-    withRouter,
-    connect(mapStateToProps, {initializeApp} as MapDispatchToPropsType)
-)(App);
-type MapDispatchToPropsType = { initializeApp: () => void };
+
+export default compose<React.ComponentType>(withRouter, connect(mapStateToProps, {initializeApp} as DispatchToPropsType))(App);
+
+type DispatchToPropsType = { initializeApp: () => void };

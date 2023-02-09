@@ -5,14 +5,14 @@ const initialState = {initialized: false};
 
 export const appReducer = (state: AppType = initialState, action: AppActionsType): AppType => {
     switch (action.type) {
-        case 'SET-INITIALIZED':
+        case 'app/SET-INITIALIZED':
             return {...state, initialized: true};
         default:
             return state;
     }
 };
 
-export const setInitializedAC = () => ({type: 'SET-INITIALIZED'} as const);
+export const setInitializedAC = () => ({type: 'app/SET-INITIALIZED'} as const);
 
 //thunks
 export const initializeApp = () => {

@@ -11,9 +11,9 @@ type ProfileInfoPropsType = {
     updateUserStatus: (status: string) => void,
 }
 
-export const ProfileInfo = (props: ProfileInfoPropsType) => {
+export const ProfileInfo = ({status, profile, updateUserStatus}: ProfileInfoPropsType) => {
 
-    if (!props.profile) {
+    if (!profile) {
         return <Preloader/>;
     }
 
@@ -24,11 +24,11 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                     style={{height: '200px'}}
                     src={userAvatar2}
                     alt="userAvatar"/>
-                <p>{props.profile.fullName}</p>
-                <p>{props.profile.userId}</p>
+                <p>{profile.fullName}</p>
+                <p>{profile.userId}</p>
                 <ProfileStatusWithHooks
-                    status={props.status}
-                    updateUserStatus={props.updateUserStatus}
+                    status={status}
+                    updateUserStatus={updateUserStatus}
                 />
             </div>
         </div>
