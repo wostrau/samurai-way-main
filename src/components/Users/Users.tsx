@@ -11,6 +11,12 @@ export class Users extends React.Component<UsersPropsType> {
         getUsers(currentPage, pageSize);
     };
 
+    currentPageChange(pageNumber: number) {
+        const {getUsers, setCurrentPage, pageSize} = this.props;
+        setCurrentPage(pageNumber);
+        getUsers(pageNumber, pageSize);
+    };
+
     render() {
         return (
             <>
@@ -21,8 +27,7 @@ export class Users extends React.Component<UsersPropsType> {
                             pageSize={this.props.pageSize}
                             currentPage={this.props.currentPage}
                             totalUsersCount={this.props.totalUsersCount}
-                            getUsers={this.props.getUsers}
-                            setCurrentPage={this.props.setCurrentPage}
+                            currentPageChange={this.currentPageChange.bind(this)}
                         />
                         <div>
                             {this.props.users.map(u => {
