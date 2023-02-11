@@ -2,16 +2,18 @@ import React from 'react';
 import './App.css';
 import {Navbar} from './components/Navbar/Navbar';
 import {Route, withRouter} from 'react-router-dom';
-import {DialogsContainer} from './components/Dialogs/DialogsContainer';
-import {UsersContainer} from './components/Users/UsersContainer';
-import ProfileContainer from './components/Profile/ProfileContainer';
-import HeaderContainer from './components/Header/HeaderContainer';
-import {LoginContainer} from './components/Login/LoginContainer';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {AppType, initializeApp} from './redux/app-reducer';
 import {AppStateType} from './redux/redux-store';
 import {Preloader} from './components/common/Preloader/Preloader';
+import HeaderContainer from './components/Header/HeaderContainer';
+import {withSuspense} from './hoc/WithSuspense';
+
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
+const LoginContainer = React.lazy(() => import('./components/Login/LoginContainer'));
 
 
 class App extends React.Component<DispatchToPropsType & AppType> {
@@ -21,6 +23,11 @@ class App extends React.Component<DispatchToPropsType & AppType> {
 
     render() {
         if (!this.props.initialized) return <Preloader/>;
+        const ProfileContainerWithSuspense = withSuspense(ProfileContainer);
+        const DialogsContainerWithSuspense = withSuspense(DialogsContainer);
+        const UsersContainerWithSuspense = withSuspense(UsersContainer);
+        const LoginContainerWithSuspense = withSuspense(LoginContainer);
+
         return (
             <div className="app-wrapper">
                 <HeaderContainer/>
@@ -28,19 +35,19 @@ class App extends React.Component<DispatchToPropsType & AppType> {
                 <div className="app-wrapper-content">
                     <Route
                         path="/profile/:userId?"
-                        render={() => <ProfileContainer/>}
+                        render={() => <ProfileContainerWithSuspense/>}
                     />
                     <Route
                         path="/dialogs"
-                        render={() => <DialogsContainer/>}
+                        render={() => <DialogsContainerWithSuspense/>}
                     />
                     <Route
                         path="/users"
-                        render={() => <UsersContainer/>}
+                        render={() => <UsersContainerWithSuspense/>}
                     />
                     <Route
                         path="/login"
-                        render={() => <LoginContainer/>}
+                        render={() => <LoginContainerWithSuspense/>}
                     />
                 </div>
             </div>

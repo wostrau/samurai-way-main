@@ -49,7 +49,7 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
     }
 };
 
-export const UsersContainer = compose<React.ComponentType>(
+const UsersContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {
         setUsers: setUsersAC,
         setCurrentPage: setCurrentPageAC,
@@ -62,4 +62,6 @@ export const UsersContainer = compose<React.ComponentType>(
     } as MapDispatchToPropsType),
     withRedirectToLogin
 )(Users);
+
+export default UsersContainer;
 
