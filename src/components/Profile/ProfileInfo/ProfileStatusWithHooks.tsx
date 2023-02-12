@@ -28,9 +28,10 @@ export const ProfileStatusWithHooks = (props: ProfileStatusPropsType) => {
                     onBlur={deactivateEditMode}
                     onKeyPress={(e) => e.key === 'Enter' && deactivateEditMode()}
                 /></div>
-                : <div><span onDoubleClick={activateEditMode}>{status || 'NO STATUS'}</span></div>
+                : <div>
+                    <b>Status: </b><span onDoubleClick={activateEditMode}>{status || 'NO STATUS'}</span>
+                </div>
             }
         </div>
     );
 };
-

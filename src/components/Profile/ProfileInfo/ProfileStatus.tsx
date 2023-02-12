@@ -43,7 +43,7 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
                             onBlur={this.deactivateEditMode.bind(this)}
                             onKeyPress={(e) => e.key === 'Enter' && this.deactivateEditMode()}
                         /></div>
-                        : <div><span onDoubleClick={this.activateEditMode}>{this.props.status || 'NO STATUS'}</span></div>
+                        : <div><b>Status: </b><span onDoubleClick={this.activateEditMode}>{this.props.status || 'NO STATUS'}</span></div>
                 }
             </>
         );
