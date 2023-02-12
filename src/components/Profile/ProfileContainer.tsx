@@ -1,7 +1,13 @@
 import React from 'react';
 import {Profile} from './Profile';
 import {connect} from 'react-redux';
-import {getUserProfile, getUserStatus, ProfileResponseType, updateUserStatus} from '../../redux/profile-reducer';
+import {
+    getUserProfile,
+    getUserStatus,
+    ProfileResponseType,
+    savePhoto,
+    updateUserStatus
+} from '../../redux/profile-reducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {AppStateType} from '../../redux/redux-store';
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
@@ -10,7 +16,7 @@ import {compose} from 'redux';
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
-    componentDidMount() {
+    mountProfile() {
         let userId = this.props.match.params.userId;
         if (!userId) {
             userId = this.props.userId;
@@ -20,12 +26,22 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         this.props.getUserStatus(userId);
     }
 
+    componentDidMount() {
+        this.mountProfile();
+    }
+
+    componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>) {
+        if (this.props.match.params.userId !== prevProps.match.params.userId) this.mountProfile();
+    }
+
     render() {
         return <Profile
             {...this.props}
+            isOwner={!this.props.match.params.userId}
             profile={this.props.profile}
             status={this.props.status}
             updateUserStatus={this.props.updateUserStatus}
+            savePhoto={this.props.savePhoto}
         />;
     }
 }
@@ -40,7 +56,7 @@ const mapStateToProps = (state: AppStateType) => {
 };
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus} as MapDispatchToPropsType),
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, savePhoto} as MapDispatchToPropsType),
     withRouter,
     withRedirectToLogin
 )(ProfileContainer);
@@ -50,6 +66,7 @@ type MapDispatchToPropsType = {
     getUserProfile: (id: string) => void
     getUserStatus: (id: string) => void
     updateUserStatus: (status: string) => void
+    savePhoto: (photo: File) => void
 };
 type MapStateToPropsType = {
     profile: ProfileResponseType

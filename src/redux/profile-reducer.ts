@@ -26,6 +26,8 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ap
             return {...state, profile: action.profile};
         case 'profile/SET-USER-STATUS':
             return {...state, status: action.status};
+        case 'profile/SAVE-USER-PHOTO':
+            return {...state, profile: {...state.profile, photos: action.photos}};
         default:
             return state;
     }
@@ -39,6 +41,10 @@ export const setUserProfileAC = (profile: ProfileResponseType) => ({
     profile
 } as const);
 export const setUserStatusAC = (status: string) => ({type: 'profile/SET-USER-STATUS', status} as const);
+export const saveUserPhotoAC = (photos: { large: string, small: string }) => ({
+    type: 'profile/SAVE-USER-PHOTO',
+    photos
+} as const);
 
 //thunks
 export const getUserProfile = (id: string) => {
@@ -59,13 +65,20 @@ export const updateUserStatus = (status: string) => {
         if (data.resultCode === 0) dispatch(setUserStatusAC(status));
     };
 };
+export const savePhoto = (photo: File) => {
+    return async (dispatch: Dispatch) => {
+        const data = await profileAPI.savePhoto(photo);
+        if (data.resultCode === 0) dispatch(saveUserPhotoAC(data));
+    };
+};
 
 //types
 export type ProfileReducerActionsType =
     ReturnType<typeof addPostAC>
     | ReturnType<typeof deletePostAC>
     | ReturnType<typeof setUserProfileAC>
-    | ReturnType<typeof setUserStatusAC>;
+    | ReturnType<typeof setUserStatusAC>
+    | ReturnType<typeof saveUserPhotoAC>;
 export type PostType = {
     id: string,
     message: string,

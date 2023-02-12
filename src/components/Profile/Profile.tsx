@@ -4,18 +4,22 @@ import {MyPostsContainer} from './MyPosts/MyPostsContainer';
 import {ProfileResponseType} from '../../redux/profile-reducer';
 
 type ProfilePropsType = {
+    isOwner: boolean
     status: string
     profile: ProfileResponseType,
-    updateUserStatus: (status: string) => void,
+    updateUserStatus: (status: string) => void
+    savePhoto: (photo: File) => void
 }
 
 export const Profile = (props: ProfilePropsType) => {
     return (
         <div>
             <ProfileInfo
+                isOwner={props.isOwner}
                 status={props.status}
                 profile={props.profile}
                 updateUserStatus={props.updateUserStatus}
+                savePhoto={props.savePhoto}
             />
             <MyPostsContainer/>
         </div>
