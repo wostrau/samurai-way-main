@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {ProfileDataFormType} from '../components/Profile/ProfileInfo/ProfileDataForm';
+import {ProfileResponseType} from '../redux/profile-reducer';
 
 const baseURL = 'https://social-network.samuraijs.com/api/1.0';
 const config = {
@@ -52,6 +54,11 @@ export const profileAPI = {
             })
             .then(response => response.data);
     },
+    saveProfile(profile: ProfileResponseType) {
+        return instance
+            .put('/profile', profile)
+            .then(response => response.data);
+    }
 };
 
 export const authAPI = {

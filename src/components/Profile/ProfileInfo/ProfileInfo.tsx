@@ -5,7 +5,7 @@ import userAvatar2 from '../../../assets/userAvatar2.png';
 import {ProfileStatusWithHooks} from './ProfileStatusWithHooks';
 import {ProfileResponseType} from '../../../redux/profile-reducer';
 import {ProfileData} from './ProfileData';
-import {ProfileDataForm} from './ProfileDataForm';
+import ProfileDataReduxForm, {ProfileDataFormType} from './ProfileDataForm';
 
 
 type ProfileInfoPropsType = {
@@ -14,9 +14,11 @@ type ProfileInfoPropsType = {
     profile: ProfileResponseType
     updateUserStatus: (status: string) => void
     savePhoto: (photo: File) => void
+    saveProfile: (profile: ProfileResponseType) => Promise<void>
 }
 
-export const ProfileInfo = ({isOwner, status, profile, updateUserStatus, savePhoto}: ProfileInfoPropsType) => {
+export const ProfileInfo = (props: ProfileInfoPropsType) => {
+    const {isOwner, status, profile, updateUserStatus, savePhoto, saveProfile} = props;
     const [editMode, setEditMode] = useState<boolean>(false);
 
     if (!profile) return <Preloader/>;
@@ -25,6 +27,13 @@ export const ProfileInfo = ({isOwner, status, profile, updateUserStatus, savePho
         if (e.currentTarget.files) {
             if (e.currentTarget.files.length) savePhoto(e.currentTarget.files[0]);
         }
+    };
+
+    const onSubmit = (formData: ProfileDataFormType) => {
+        const updatedProfile = {...profile, ...formData};
+        saveProfile(updatedProfile).then(() => {
+            setEditMode(false);
+        });
     };
 
     return (
@@ -37,7 +46,11 @@ export const ProfileInfo = ({isOwner, status, profile, updateUserStatus, savePho
                     alt="userAvatar"/>
                 {isOwner && <input type={'file'} onChange={onProfilePhotoSelect}/>}
                 {editMode
-                    ? <ProfileDataForm profile={profile}/>
+                    ? <ProfileDataReduxForm
+                        initialValues={profile}
+                        onSubmit={onSubmit}
+                        contacts={profile.contacts}
+                    />
                     : <ProfileData
                         profile={profile}
                         isOwner={isOwner}

@@ -19,7 +19,7 @@ export const User = ({user, ...props}: UserPropsType) => {
                     <NavLink to={`/profile/${user.id}`}>
                         <img
                             src={user.photos.small ? user.photos.small : userAvatar2}
-                            alt="usersAvatar"
+                            alt='usersAvatar'
                         />
                     </NavLink>
                 </div>

@@ -2,6 +2,7 @@ import {v1} from 'uuid';
 import {AppActionsType} from './redux-store';
 import {Dispatch} from 'redux';
 import {profileAPI} from '../api/api';
+import {stopSubmit} from 'redux-form';
 
 //state
 const initialState = {
@@ -71,6 +72,20 @@ export const savePhoto = (photo: File) => {
         if (data.resultCode === 0) dispatch(saveUserPhotoAC(data));
     };
 };
+export const saveProfile = (profile: ProfileResponseType) => {
+    return async (dispatch: Dispatch) => {
+        const data = await profileAPI.saveProfile(profile);
+        if (data.resultCode === 0) {
+            dispatch(setUserProfileAC(profile));
+        } else {
+            const errorMessage = data.messages.length > 0
+                ? data.messages[0]
+                : 'some error';
+            dispatch(stopSubmit('edit-profile', {_error: errorMessage}));
+            return Promise.reject(errorMessage);
+        }
+    };
+};
 
 //types
 export type ProfileReducerActionsType =
@@ -85,20 +100,22 @@ export type PostType = {
     likesCount: number
 };
 export type ProfilePageType = typeof initialState;
+export type ContactsType = {
+    github: string,
+    vk: string,
+    facebook: string,
+    instagram: string,
+    twitter: string,
+    website: string,
+    youtube: string,
+    mainLink: string
+};
 export type ProfileResponseType = {
     userId: number,
+    aboutMe?: string,
     lookingForAJob: boolean,
     lookingForAJobDescription: string,
     fullName: string,
-    contacts: {
-        github: string,
-        vk: string,
-        facebook: string,
-        instagram: string,
-        twitter: string,
-        website: string,
-        youtube: string,
-        mainLink: string
-    },
+    contacts: ContactsType,
     photos: { small: string, large: string }
 };
