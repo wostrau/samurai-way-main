@@ -1,6 +1,5 @@
 import {v1} from 'uuid';
 import {AppActionsType, AppDispatch} from './redux-store';
-import {Dispatch} from 'redux';
 import {profileAPI} from '../api/api';
 import {stopSubmit} from 'redux-form';
 

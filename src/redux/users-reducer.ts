@@ -1,6 +1,5 @@
 import {AppActionsType, AppDispatch} from './redux-store';
 import {usersAPI} from '../api/api';
-import {Dispatch} from 'redux';
 import {updateUsersArray} from '../utilities/object-helpers';
 
 
