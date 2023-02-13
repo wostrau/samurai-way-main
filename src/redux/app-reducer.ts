@@ -1,4 +1,4 @@
-import {AppActionsType} from './redux-store';
+import {AppActionsType, AppDispatch} from './redux-store';
 import {getAuthUserData} from './auth-reducer';
 
 const initialState = {initialized: false};
@@ -16,7 +16,7 @@ export const setInitializedAC = () => ({type: 'app/SET-INITIALIZED'} as const);
 
 //thunks
 export const initializeApp = () => {
-    return async (dispatch: any) => {
+    return async (dispatch: AppDispatch) => {
         await dispatch(getAuthUserData());
         dispatch(setInitializedAC());
     };

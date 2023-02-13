@@ -1,4 +1,4 @@
-import {AppActionsType} from './redux-store';
+import {AppActionsType, AppDispatch} from './redux-store';
 import {usersAPI} from '../api/api';
 import {Dispatch} from 'redux';
 import {updateUsersArray} from '../utilities/object-helpers';
@@ -53,7 +53,7 @@ export const toggleFollowingInProgressAC = (id: string, isFetching: boolean) => 
 
 //thunks
 export const getUsersTC = (currentPage: number, pageSize: number) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: AppDispatch) => {
         dispatch(toggleIsFetchingAC(true));
         dispatch(setCurrentPageAC(currentPage));
         const data = await usersAPI.getUsers(currentPage, pageSize)
@@ -62,20 +62,20 @@ export const getUsersTC = (currentPage: number, pageSize: number) => {
         dispatch(setTotalUsersCountAC(data.totalCount));
     };
 };
-const followUnfollowFlow = async (id: string, dispatch: Dispatch, apiMethod: any, actionCreator: any) => {
+const followUnfollowFlow = async (id: string, dispatch: AppDispatch, apiMethod: any, actionCreator: any) => {
     dispatch(toggleFollowingInProgressAC(id, true));
     const data = await apiMethod(id);
     if (data.resultCode === 0) dispatch(actionCreator(id));
     dispatch(toggleFollowingInProgressAC(id, false));
 };
 export const followUserTC = (id: string) => {
-    return (dispatch: Dispatch) => {
+    return (dispatch: AppDispatch) => {
         const apiMethod = usersAPI.followUser.bind(usersAPI);
         followUnfollowFlow(id, dispatch, apiMethod, followUserAC);
     };
 };
 export const unfollowUserTC = (id: string) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: AppDispatch) => {
         const apiMethod = usersAPI.unfollowUser.bind(usersAPI);
         followUnfollowFlow(id, dispatch, apiMethod, unfollowUserAC);
     };

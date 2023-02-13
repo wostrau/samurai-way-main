@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import {AppActionsType} from './redux-store';
+import {AppActionsType, AppDispatch} from './redux-store';
 import {Dispatch} from 'redux';
 import {profileAPI} from '../api/api';
 import {stopSubmit} from 'redux-form';
@@ -49,31 +49,31 @@ export const saveUserPhotoAC = (photos: { large: string, small: string }) => ({
 
 //thunks
 export const getUserProfile = (id: string) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: AppDispatch) => {
         const data = await profileAPI.getUserProfile(id);
         dispatch(setUserProfileAC(data));
     };
 };
 export const getUserStatus = (id: string) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: AppDispatch) => {
         const data = await profileAPI.getUserStatus(id);
         dispatch(setUserStatusAC(data));
     };
 };
 export const updateUserStatus = (status: string) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: AppDispatch) => {
         const data = await profileAPI.updateUserStatus(status);
         if (data.resultCode === 0) dispatch(setUserStatusAC(status));
     };
 };
 export const savePhoto = (photo: File) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: AppDispatch) => {
         const data = await profileAPI.savePhoto(photo);
         if (data.resultCode === 0) dispatch(saveUserPhotoAC(data));
     };
 };
 export const saveProfile = (profile: ProfileResponseType) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: AppDispatch) => {
         const data = await profileAPI.saveProfile(profile);
         if (data.resultCode === 0) {
             dispatch(setUserProfileAC(profile));

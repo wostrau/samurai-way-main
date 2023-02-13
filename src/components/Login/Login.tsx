@@ -12,9 +12,10 @@ type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
+    captcha: string
 }
 
-const LoginForm = ({handleSubmit, error}: InjectedFormProps<FormDataType>) => {
+const LoginForm = ({handleSubmit, error, captchaUrl}: InjectedFormProps<FormDataType, CaptchaType> & CaptchaType) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -41,6 +42,13 @@ const LoginForm = ({handleSubmit, error}: InjectedFormProps<FormDataType>) => {
                     type={'checkbox'}
                 />remember me
             </div>
+            {captchaUrl && <img src={captchaUrl} alt='captcha'/>}
+            {captchaUrl && <Field
+                name={'captcha'}
+                placeholder={'Symbols from image above'}
+                component={Input}
+                validate={[requiredField]}
+            />}
             {error && <div className={styles.formSummaryError}>{error}</div>}
             <div>
                 <button>Log IN</button>
@@ -49,12 +57,13 @@ const LoginForm = ({handleSubmit, error}: InjectedFormProps<FormDataType>) => {
     );
 };
 
-const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm);
+type CaptchaType = { captchaUrl: null | string };
+const LoginReduxForm = reduxForm<FormDataType, CaptchaType>({form: 'login'})(LoginForm);
 
 const Login = (props: mDTPType & mSTPType) => {
     const onSubmit = (formData: FormDataType) => {
-        const {email, password, rememberMe} = formData;
-        props.login(email, password, rememberMe);
+        const {email, password, rememberMe, captcha} = formData;
+        props.login(email, password, rememberMe, captcha);
     };
 
     if (props.isAuth) return <Redirect to={'/profile'}/>;
@@ -62,15 +71,21 @@ const Login = (props: mDTPType & mSTPType) => {
     return (
         <div>
             <h1>LOGIN</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <LoginReduxForm
+                onSubmit={onSubmit}
+                captchaUrl={props.captchaUrl}
+            />
         </div>
     );
 };
 
 type mDTPType = {
-    login: (email: string, password: string, rememberMe: boolean) => void
+    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
     logout: () => void
 }
-type mSTPType = { isAuth: boolean }
-const mapStateToProps = (state: AppStateType) => ({isAuth: state.auth.isAuth} as mSTPType);
+type mSTPType = { isAuth: boolean, captchaUrl: null | string }
+const mapStateToProps = (state: AppStateType) => ({
+    isAuth: state.auth.isAuth,
+    captchaUrl: state.auth.captchaUrl
+} as mSTPType);
 export default connect(mapStateToProps, {login, logout} as mDTPType)(Login);
