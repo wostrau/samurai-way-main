@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {ProfileDataFormType} from '../components/Profile/ProfileInfo/ProfileDataForm';
 import {ProfileResponseType} from '../redux/profile-reducer';
 
 const baseURL = 'https://social-network.samuraijs.com/api/1.0';

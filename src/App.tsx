@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {Navbar} from './components/Navbar/Navbar';
-import {Route, withRouter} from 'react-router-dom';
+import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {AppType, initializeApp} from './redux/app-reducer';
@@ -33,22 +33,33 @@ class App extends React.Component<DispatchToPropsType & AppType> {
                 <HeaderContainer/>
                 <Navbar/>
                 <div className="app-wrapper-content">
-                    <Route
-                        path="/profile/:userId?"
-                        render={() => <ProfileContainerWithSuspense/>}
-                    />
-                    <Route
-                        path="/dialogs"
-                        render={() => <DialogsContainerWithSuspense/>}
-                    />
-                    <Route
-                        path="/users"
-                        render={() => <UsersContainerWithSuspense/>}
-                    />
-                    <Route
-                        path="/login"
-                        render={() => <LoginContainerWithSuspense/>}
-                    />
+                    <Switch>
+                        <Route
+                            exact={true}
+                            path="/"
+                            render={() => <Redirect to={'/profile'}/>}
+                        />
+                        <Route
+                            path="/profile/:userId?"
+                            render={() => <ProfileContainerWithSuspense/>}
+                        />
+                        <Route
+                            path="/dialogs"
+                            render={() => <DialogsContainerWithSuspense/>}
+                        />
+                        <Route
+                            path="/users"
+                            render={() => <UsersContainerWithSuspense/>}
+                        />
+                        <Route
+                            path="/login"
+                            render={() => <LoginContainerWithSuspense/>}
+                        />
+                        <Route
+                            path="*"
+                            render={() => <div>404 PAGE NOT FOUND</div>}
+                        />
+                    </Switch>
                 </div>
             </div>
         );
