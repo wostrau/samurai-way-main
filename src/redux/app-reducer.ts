@@ -1,7 +1,7 @@
 import {AppActionsType, AppDispatch} from './redux-store';
 import {getAuthUserData} from './auth-reducer';
 
-const initialState = {initialized: false};
+const initialState: AppType = {initialized: false};
 
 export const appReducer = (state: AppType = initialState, action: AppActionsType): AppType => {
     switch (action.type) {

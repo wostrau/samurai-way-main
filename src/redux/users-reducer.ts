@@ -1,6 +1,7 @@
 import {AppActionsType, AppDispatch} from './redux-store';
 import {usersAPI} from '../api/api';
 import {updateUsersArray} from '../utilities/object-helpers';
+import {PhotosType} from '../types/types'
 
 
 const initialState = {
@@ -9,7 +10,7 @@ const initialState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
-    followingInProgress: ['']
+    followingInProgress: [] as Array<string>
 };
 
 export const usersReducer = (state: UsersPageType = initialState, action: AppActionsType): UsersPageType => {
@@ -84,11 +85,8 @@ export type UserType = {
     id: string,
     name: string,
     uniqueUrlName: string
-    photos: {
-        small: string
-        large: string
-    }
-    status: string
+    photos: PhotosType
+    status: string | null
     followed: boolean
 };
 export type UsersPageType = typeof initialState;

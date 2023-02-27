@@ -1,7 +1,8 @@
-import {v1} from 'uuid';
-import {AppActionsType, AppDispatch} from './redux-store';
-import {profileAPI} from '../api/api';
-import {stopSubmit} from 'redux-form';
+import {v1} from 'uuid'
+import {AppActionsType, AppDispatch} from './redux-store'
+import {profileAPI} from '../api/api'
+import {stopSubmit} from 'redux-form'
+import {PostType, ProfileResponseType} from '../types/types'
 
 //state
 const initialState = {
@@ -93,28 +94,4 @@ export type ProfileReducerActionsType =
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof setUserStatusAC>
     | ReturnType<typeof saveUserPhotoAC>;
-export type PostType = {
-    id: string,
-    message: string,
-    likesCount: number
-};
 export type ProfilePageType = typeof initialState;
-export type ContactsType = {
-    github: string,
-    vk: string,
-    facebook: string,
-    instagram: string,
-    twitter: string,
-    website: string,
-    youtube: string,
-    mainLink: string
-};
-export type ProfileResponseType = {
-    userId: number,
-    aboutMe?: string,
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string,
-    fullName: string,
-    contacts: ContactsType,
-    photos: { small: string, large: string }
-};

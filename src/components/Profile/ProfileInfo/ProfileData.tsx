@@ -1,6 +1,6 @@
 import React from 'react';
 import {Contact, ProfileContacts} from './Contact';
-import {ProfileResponseType} from '../../../redux/profile-reducer';
+import {ProfileResponseType} from '../../../types/types'
 
 type ProfileDataPropsType = {
     profile: ProfileResponseType

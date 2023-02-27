@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {
     getUserProfile,
     getUserStatus,
-    ProfileResponseType,
     savePhoto,
     saveProfile,
     updateUserStatus
@@ -13,6 +12,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {AppStateType} from '../../redux/redux-store';
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
 import {compose} from 'redux';
+import {ProfileResponseType} from '../../types/types'
 
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {

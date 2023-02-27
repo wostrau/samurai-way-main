@@ -1,8 +1,8 @@
 import React from 'react';
 import {Input, Textarea} from '../../common/FormControls/FormControls';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
-import {ContactsType} from '../../../redux/profile-reducer';
 import styles from '../../common/FormControls/FormControls.module.css';
+import {ContactsType} from '../../../types/types'
 
 
 export type ProfileDataFormType = {

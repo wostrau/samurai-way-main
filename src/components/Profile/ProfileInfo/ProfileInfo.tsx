@@ -3,9 +3,9 @@ import styles from './ProfileInfo.module.css';
 import {Preloader} from '../../common/Preloader/Preloader';
 import userAvatar2 from '../../../assets/userAvatar2.png';
 import {ProfileStatusWithHooks} from './ProfileStatusWithHooks';
-import {ProfileResponseType} from '../../../redux/profile-reducer';
 import {ProfileData} from './ProfileData';
 import ProfileDataReduxForm, {ProfileDataFormType} from './ProfileDataForm';
+import {ProfileResponseType} from '../../../types/types'
 
 
 type ProfileInfoPropsType = {

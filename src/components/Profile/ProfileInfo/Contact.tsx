@@ -1,5 +1,5 @@
 import React from 'react';
-import {ProfileResponseType} from '../../../redux/profile-reducer';
+import {ProfileResponseType} from '../../../types/types'
 
 export type ProfileContacts = keyof ProfileResponseType['contacts'];
 
