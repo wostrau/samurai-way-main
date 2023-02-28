@@ -9,16 +9,16 @@ type PaginatorPropsType = {
     portionSize?: number
 }
 
-export const Paginator = (props: PaginatorPropsType) => {
+export const Paginator: React.FC<PaginatorPropsType> = (props) => {
     const portionSize = props.portionSize || 10;
 
     const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-    const pages = [];
+    const pages: Array<number> = [];
     for (let i = 1; i <= pagesCount; i++) pages.push(i);
 
     const portionCount = Math.ceil(pagesCount / portionSize);
     const actualPortion = Math.ceil(props.currentPage / portionSize)
-    const [portionNumber, setPortionNumber] = useState(actualPortion);
+    const [portionNumber, setPortionNumber] = useState<number>(actualPortion);
     let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
     let rightPortionPageNumber = portionNumber * portionSize;
 

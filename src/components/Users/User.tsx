@@ -11,7 +11,7 @@ type UserPropsType = {
     followUser: (id: string) => void
 }
 
-export const User = ({user, ...props}: UserPropsType) => {
+export const User: React.FC<UserPropsType> = ({user, ...props}) => {
     return (
         <div>
             <span>
