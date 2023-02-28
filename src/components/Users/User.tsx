@@ -6,9 +6,9 @@ import {UserType} from '../../redux/users-reducer';
 
 type UserPropsType = {
     user: UserType
-    followingInProgress: Array<string>
-    unfollowUser: (id: string) => void
-    followUser: (id: string) => void
+    followingInProgress: Array<number>
+    unfollowUser: (id: number) => void
+    followUser: (id: number) => void
 }
 
 export const User: React.FC<UserPropsType> = ({user, ...props}) => {

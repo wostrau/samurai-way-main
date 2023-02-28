@@ -1,5 +1,5 @@
 import {AppActionsType, AppDispatch} from './redux-store'
-import {authAPI, securityAPI} from '../api/api'
+import {authAPI, ResultCodes, securityAPI} from '../api/api'
 import {stopSubmit} from 'redux-form'
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
     login: null,
     isAuth: false,
     captchaUrl: null
-}
+} as AuthType
 
 export const authReducer = (state: AuthType = initialState, action: AppActionsType): AuthType => {
     switch (action.type) {
@@ -30,7 +30,7 @@ export const setCaptchaAC = (captchaUrl: string) => ({type: 'auth/SET-CAPTCHA-UR
 export const getAuthUserData = () => {
     return async (dispatch: AppDispatch) => {
         const data = await authAPI.me()
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodes.Success) {
             const {id, email, login} = data.data
             dispatch(setUserAuthDataAC({userId: id, email, login, isAuth: true}))
         }
@@ -42,7 +42,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
         if (data.resultCode === 0) {
             await dispatch(getAuthUserData())
         } else {
-            if (data.resultCode === 10) await dispatch(getCaptcha())
+            if (data.resultCode === ResultCodes.CaptchaIsRequired) await dispatch(getCaptcha())
             const errorMessage = data.messages.length > 0
                 ? data.messages[0]
                 : 'some error'
@@ -53,7 +53,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 export const logout = () => {
     return async (dispatch: AppDispatch) => {
         const data = await authAPI.logout()
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodes.Success) {
             dispatch(setUserAuthDataAC({userId: null, email: null, login: null, isAuth: false}))
         }
     }
@@ -67,7 +67,7 @@ export const getCaptcha = () => {
 
 //types
 export type AuthType = {
-    userId: null | string
+    userId: null | number
     email: null | string
     login: null | string
     isAuth: boolean

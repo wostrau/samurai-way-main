@@ -30,10 +30,10 @@ type MapDispatchToPropsType = {
     setCurrentPage: (currentPage: number) => void,
     setTotalUsersCount: (totalUsersCount: number) => void,
     toggleIsFetching: (isFetching: boolean) => void,
-    toggleFollowingInProgress: (id: string, isFetching: boolean) => void,
+    toggleFollowingInProgress: (id: number, isFetching: boolean) => void,
     getUsers: (currentPage: number, pageSize: number) => void,
-    followUser: (id: string) => void,
-    unfollowUser: (id: string) => void,
+    followUser: (id: number) => void,
+    unfollowUser: (id: number) => void,
 };
 
 export type UsersPropsType = UsersPageType & MapDispatchToPropsType;

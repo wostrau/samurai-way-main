@@ -10,7 +10,7 @@ const initialState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
-    followingInProgress: [] as Array<string>
+    followingInProgress: [] as Array<number>
 }
 
 export const usersReducer = (state: UsersPageType = initialState, action: AppActionsType): UsersPageType => {
@@ -29,7 +29,8 @@ export const usersReducer = (state: UsersPageType = initialState, action: AppAct
             return {...state, isFetching: action.isFetching}
         case 'users/TOGGLE-IS-FOLLOWING-PROGRESS':
             return {
-                ...state, followingInProgress: action.isFetching
+                ...state, followingInProgress:
+                    action.isFetching
                     ? [...state.followingInProgress, action.id]
                     : state.followingInProgress.filter(id => id !== action.id)
             }
@@ -39,15 +40,15 @@ export const usersReducer = (state: UsersPageType = initialState, action: AppAct
 }
 
 export const setUsersAC = (users: Array<UserType>) => ({type: 'users/SET-USERS', users} as const)
-export const followUserAC = (id: string) => ({type: 'users/FOLLOW-USER', id} as const)
-export const unfollowUserAC = (id: string) => ({type: 'users/UNFOLLOW-USER', id} as const)
+export const followUserAC = (id: number) => ({type: 'users/FOLLOW-USER', id} as const)
+export const unfollowUserAC = (id: number) => ({type: 'users/UNFOLLOW-USER', id} as const)
 export const setCurrentPageAC = (currentPage: number) => ({type: 'users/SET-CURRENT-PAGE', currentPage} as const)
 export const setTotalUsersCountAC = (totalUsersCount: number) => ({
     type: 'users/SET-TOTAL-USERS-COUNT',
     totalUsersCount
 } as const)
 export const toggleIsFetchingAC = (isFetching: boolean) => ({type: 'users/TOGGLE-IS-FETCHING', isFetching} as const)
-export const toggleFollowingInProgressAC = (id: string, isFetching: boolean) => {
+export const toggleFollowingInProgressAC = (id: number, isFetching: boolean) => {
     return {type: 'users/TOGGLE-IS-FOLLOWING-PROGRESS', id, isFetching} as const
 }
 
@@ -62,19 +63,19 @@ export const getUsersTC = (currentPage: number, pageSize: number): AppThunkType 
         dispatch(setTotalUsersCountAC(data.totalCount))
     }
 }
-const _followUnfollowFlow = async (id: string, dispatch: AppDispatch, apiMethod: any, actionCreator: FollowType) => {
+const _followUnfollowFlow = async (id: number, dispatch: AppDispatch, apiMethod: any, actionCreator: FollowType) => {
     dispatch(toggleFollowingInProgressAC(id, true))
     const data = await apiMethod(id)
     if (data.resultCode === 0) dispatch(actionCreator(id))
     dispatch(toggleFollowingInProgressAC(id, false))
 }
-export const followUserTC = (id: string): AppThunkType => {
+export const followUserTC = (id: number): AppThunkType => {
     return async (dispatch) => {
         const apiMethod = await usersAPI.followUser.bind(usersAPI)
         await _followUnfollowFlow(id, dispatch, apiMethod, followUserAC)
     }
 }
-export const unfollowUserTC = (id: string): AppThunkType => {
+export const unfollowUserTC = (id: number): AppThunkType => {
     return async (dispatch) => {
         const apiMethod = await usersAPI.unfollowUser.bind(usersAPI)
         await _followUnfollowFlow(id, dispatch, apiMethod, unfollowUserAC)
@@ -82,7 +83,7 @@ export const unfollowUserTC = (id: string): AppThunkType => {
 }
 
 export type UserType = {
-    id: string,
+    id: number,
     name: string,
     uniqueUrlName: string
     photos: PhotosType
@@ -90,7 +91,7 @@ export type UserType = {
     followed: boolean
 };
 export type UsersPageType = typeof initialState
-type FollowType = (id: string) => FollowActionType | UnfollowActionType
+type FollowType = (id: number) => FollowActionType | UnfollowActionType
 type FollowActionType = ReturnType<typeof followUserAC>
 type UnfollowActionType = ReturnType<typeof unfollowUserAC>
 export type UsersReducerActionsType =

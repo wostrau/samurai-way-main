@@ -48,13 +48,13 @@ export const saveUserPhotoAC = (photos: { large: string, small: string }) => ({
 } as const);
 
 //thunks
-export const getUserProfile = (id: string) => {
+export const getUserProfile = (id: number) => {
     return async (dispatch: AppDispatch) => {
         const data = await profileAPI.getUserProfile(id);
         dispatch(setUserProfileAC(data));
     };
 };
-export const getUserStatus = (id: string) => {
+export const getUserStatus = (id: number) => {
     return async (dispatch: AppDispatch) => {
         const data = await profileAPI.getUserStatus(id);
         dispatch(setUserStatusAC(data));
