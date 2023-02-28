@@ -1,18 +1,22 @@
-import React from 'react';
-import styles from './FormControls.module.css';
+import React from 'react'
+import styles from './FormControls.module.css'
 
-const FormControl = ({meta: {touched, error}, children}: any) => {
-    const isError = touched && error;
+
+type FormControlPropsType = { meta: { touched: boolean, error: string } }
+
+const FormControl: React.FC<FormControlPropsType> = (props) => {
+    const {meta, children} = props
+    const isError = meta.touched && meta.error
     return (
         <div className={isError ? `${styles.formControl} ${styles.error}` : ''}>
             <div>{children}</div>
-            {isError && <span>{error}</span>}
+            {isError && <span>{meta.error}</span>}
         </div>
-    );
-};
+    )
+}
 
 export const Textarea = (props: any) => {
-    const {input, meta, ...restProps} = props;
+    const {input, meta, ...restProps} = props
     return (
         <FormControl {...props}>
             <textarea
@@ -22,11 +26,11 @@ export const Textarea = (props: any) => {
                 {...restProps}
             />
         </FormControl>
-    );
-};
+    )
+}
 
 export const Input = (props: any) => {
-    const {input, meta, ...restProps} = props;
+    const {input, meta, ...restProps} = props
     return (
         <FormControl {...props}>
             <input
@@ -34,5 +38,5 @@ export const Input = (props: any) => {
                 {...restProps}
             />
         </FormControl>
-    );
-};
+    )
+}
