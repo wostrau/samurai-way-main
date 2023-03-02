@@ -12,7 +12,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {AppStateType} from '../../redux/redux-store';
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
 import {compose} from 'redux';
-import {ProfileResponseType} from '../../types/types'
+import {ProfileResponseType} from '../../api/profile-api'
 
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {

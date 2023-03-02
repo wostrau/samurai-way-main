@@ -1,5 +1,5 @@
 import React from 'react';
-import {ProfileResponseType} from '../../../types/types'
+import {ProfileResponseType} from '../../../api/profile-api'
 
 export type ProfileContacts = keyof ProfileResponseType['contacts'];
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Contact, ProfileContacts} from './Contact';
-import {ProfileResponseType} from '../../../types/types'
+import {ProfileResponseType} from '../../../api/profile-api'
 
 type ProfileDataPropsType = {
     profile: ProfileResponseType

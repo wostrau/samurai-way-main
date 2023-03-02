@@ -5,7 +5,7 @@ import userAvatar2 from '../../../assets/userAvatar2.png';
 import {ProfileStatusWithHooks} from './ProfileStatusWithHooks';
 import {ProfileData} from './ProfileData';
 import ProfileDataReduxForm, {ProfileDataFormType} from './ProfileDataForm';
-import {ProfileResponseType} from '../../../types/types'
+import {ProfileResponseType} from '../../../api/profile-api'
 
 
 type ProfileInfoPropsType = {

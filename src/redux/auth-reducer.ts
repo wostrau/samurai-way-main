@@ -1,6 +1,8 @@
 import {AppActionsType, AppDispatch} from './redux-store'
-import {authAPI, ResultCodes, securityAPI} from '../api/api'
+import {ResultCodes} from '../api/api'
 import {stopSubmit} from 'redux-form'
+import {authAPI} from '../api/auth-api'
+import {securityAPI} from '../api/security-api'
 
 const initialState = {
     userId: null,

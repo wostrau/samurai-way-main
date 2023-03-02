@@ -1,5 +1,5 @@
 import {addPostAC, deletePostAC, ProfilePageType, profileReducer} from './profile-reducer';
-import {ProfileResponseType} from '../types/types'
+import {ProfileResponseType} from '../api/profile-api'
 
 let startState: ProfilePageType;
 beforeEach(() => {

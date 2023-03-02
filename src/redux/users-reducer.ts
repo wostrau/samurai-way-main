@@ -1,6 +1,6 @@
 import {AppActionsType, AppDispatch, AppThunkType, InferActionsType} from './redux-store'
-import {usersAPI} from '../api/api'
 import {updateUsersArray} from '../utilities/object-helpers'
+import {usersAPI} from '../api/users-api'
 import {PhotosType} from '../types/types'
 
 

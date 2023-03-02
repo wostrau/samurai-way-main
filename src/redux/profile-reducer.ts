@@ -1,8 +1,9 @@
 import {v1} from 'uuid'
 import {AppActionsType, AppDispatch} from './redux-store'
-import {profileAPI} from '../api/api'
 import {stopSubmit} from 'redux-form'
-import {PostType, ProfileResponseType} from '../types/types'
+import {profileAPI, ProfileResponseType} from '../api/profile-api'
+import {PostType} from '../api/api'
+import {PhotosType} from '../types/types'
 
 //state
 const initialState = {
@@ -42,7 +43,7 @@ export const setUserProfileAC = (profile: ProfileResponseType) => ({
     profile
 } as const);
 export const setUserStatusAC = (status: string) => ({type: 'profile/SET-USER-STATUS', status} as const);
-export const saveUserPhotoAC = (photos: { large: string, small: string }) => ({
+export const saveUserPhotoAC = (photos: PhotosType) => ({
     type: 'profile/SAVE-USER-PHOTO',
     photos
 } as const);
@@ -50,26 +51,26 @@ export const saveUserPhotoAC = (photos: { large: string, small: string }) => ({
 //thunks
 export const getUserProfile = (id: number) => {
     return async (dispatch: AppDispatch) => {
-        const data = await profileAPI.getUserProfile(id);
+        const data = await profileAPI.getProfile(id);
         dispatch(setUserProfileAC(data));
     };
 };
 export const getUserStatus = (id: number) => {
     return async (dispatch: AppDispatch) => {
-        const data = await profileAPI.getUserStatus(id);
+        const data = await profileAPI.getProfileStatus(id);
         dispatch(setUserStatusAC(data));
     };
 };
 export const updateUserStatus = (status: string) => {
     return async (dispatch: AppDispatch) => {
-        const data = await profileAPI.updateUserStatus(status);
+        const data = await profileAPI.updateProfileStatus(status);
         if (data.resultCode === 0) dispatch(setUserStatusAC(status));
     };
 };
-export const savePhoto = (photo: File) => {
+export const savePhoto = (photos: File) => {
     return async (dispatch: AppDispatch) => {
-        const data = await profileAPI.savePhoto(photo);
-        if (data.resultCode === 0) dispatch(saveUserPhotoAC(data));
+        const data = await profileAPI.saveProfilePhoto(photos);
+        if (data.resultCode === 0) dispatch(saveUserPhotoAC(data.data.photos));
     };
 };
 export const saveProfile = (profile: ProfileResponseType) => {
