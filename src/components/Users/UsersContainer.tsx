@@ -1,21 +1,10 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {
-    followUserTC,
-    getUsersTC,
-    setCurrentPageAC,
-    setTotalUsersCountAC,
-    setUsersAC,
-    toggleFollowingInProgressAC,
-    toggleIsFetchingAC,
-    unfollowUserTC,
-    UsersPageType,
-    UserType
-} from '../../redux/users-reducer';
-import {AppStateType} from '../../redux/redux-store';
-import {Users} from './Users';
-import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
-import {compose} from 'redux';
+import React from 'react'
+import {connect} from 'react-redux'
+import {followUserTC, getUsersTC, unfollowUserTC, usersAction, UsersPageType, UserType} from '../../redux/users-reducer'
+import {AppStateType} from '../../redux/redux-store'
+import {Users} from './Users'
+import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin'
+import {compose} from 'redux'
 import {
     getCurrentPage,
     getFollowingInProgress,
@@ -23,7 +12,7 @@ import {
     getPageSize,
     getTotalUsersCount,
     getUsers
-} from '../../redux/users-selectors';
+} from '../../redux/users-selectors'
 
 type MapDispatchToPropsType = {
     setUsers: (users: Array<UserType>) => void,
@@ -51,11 +40,11 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
 
 const UsersContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {
-        setUsers: setUsersAC,
-        setCurrentPage: setCurrentPageAC,
-        setTotalUsersCount: setTotalUsersCountAC,
-        toggleIsFetching: toggleIsFetchingAC,
-        toggleFollowingInProgress: toggleFollowingInProgressAC,
+        setUsers: usersAction.setUsers,
+        setCurrentPage: usersAction.setCurrentPage,
+        setTotalUsersCount: usersAction.setTotalUsersCount,
+        toggleIsFetching: usersAction.toggleIsFetching,
+        toggleFollowingInProgress: usersAction.toggleFollowingInProgress,
         getUsers: getUsersTC,
         followUser: followUserTC,
         unfollowUser: unfollowUserTC
