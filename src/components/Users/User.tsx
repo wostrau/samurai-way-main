@@ -2,10 +2,10 @@ import React from 'react';
 import styles from './Users.module.css';
 import userAvatar2 from '../../assets/userAvatar2.png';
 import {NavLink} from 'react-router-dom';
-import {UserType} from '../../redux/users-reducer';
+import {UserStateType} from '../../redux/users-reducer';
 
 type UserPropsType = {
-    user: UserType
+    user: UserStateType
     followingInProgress: Array<number>
     unfollowUser: (id: number) => void
     followUser: (id: number) => void

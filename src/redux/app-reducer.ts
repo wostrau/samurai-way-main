@@ -1,27 +1,30 @@
-import {AppActionsType, AppDispatch} from './redux-store';
-import {getAuthUserData} from './auth-reducer';
+import {AppActionsType, AppDispatch, AppStateType, AppThunkType, InferActionsType} from './redux-store'
+import {AuthReducerActionsType, getAuthUserData} from './auth-reducer'
+import {ThunkDispatch} from 'redux-thunk'
+import {FormAction} from 'redux-form/lib/actions'
 
-const initialState: AppType = {initialized: false};
+const initialState = {initialized: false}
 
-export const appReducer = (state: AppType = initialState, action: AppActionsType): AppType => {
+export const appReducer = (state: LocalAppStateType = initialState, action: AppReducerActionsType): LocalAppStateType => {
     switch (action.type) {
-        case 'app/SET-INITIALIZED':
-            return {...state, initialized: true};
+        case 'APP/SET-INITIALIZED':
+            return {...state, initialized: true}
         default:
-            return state;
+            return state
     }
-};
+}
 
-export const setInitializedAC = () => ({type: 'app/SET-INITIALIZED'} as const);
+export const appAction = {
+    setInitialized: () => ({type: 'APP/SET-INITIALIZED'} as const)
+}
 
-//thunks
-export const initializeApp = () => {
-    return async (dispatch: AppDispatch) => {
-        await dispatch(getAuthUserData());
-        dispatch(setInitializedAC());
-    };
-};
+export const initializeApp = (): LocalAppThunkType => {
+    return async (dispatch) => {
+        await dispatch(getAuthUserData())
+        dispatch(appAction.setInitialized())
+    }
+}
 
-//types
-export type AppType = { initialized: boolean };
-export type AppReducerActionsType = ReturnType<typeof setInitializedAC>;
+export type LocalAppStateType = typeof initialState
+export type AppReducerActionsType = InferActionsType<typeof appAction>
+type LocalAppThunkType = AppThunkType<AppReducerActionsType>

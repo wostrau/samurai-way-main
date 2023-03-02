@@ -20,7 +20,7 @@ export enum ResultCodes {
 }
 
 export type PostType = {
-    id: string
+    id: number
     message: string
     likesCount: number
 }

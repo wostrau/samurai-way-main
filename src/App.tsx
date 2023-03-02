@@ -4,7 +4,7 @@ import {Navbar} from './components/Navbar/Navbar';
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import {AppType, initializeApp} from './redux/app-reducer';
+import {LocalAppStateType, initializeApp} from './redux/app-reducer';
 import {AppStateType} from './redux/redux-store';
 import {Preloader} from './components/common/Preloader/Preloader';
 import HeaderContainer from './components/Header/HeaderContainer';
@@ -16,7 +16,7 @@ const UsersContainer = React.lazy(() => import('./components/Users/UsersContaine
 const LoginContainer = React.lazy(() => import('./components/Login/LoginContainer'));
 
 
-class App extends React.Component<DispatchToPropsType & AppType> {
+class App extends React.Component<DispatchToPropsType & LocalAppStateType> {
     componentDidMount() {
         this.props.initializeApp();
     }
@@ -66,7 +66,7 @@ class App extends React.Component<DispatchToPropsType & AppType> {
     }
 }
 
-const mapStateToProps = (state: AppStateType) => ({initialized: state.app.initialized} as AppType);
+const mapStateToProps = (state: AppStateType) => ({initialized: state.app.initialized} as LocalAppStateType);
 
 export default compose<React.ComponentType>(withRouter, connect(mapStateToProps, {initializeApp} as DispatchToPropsType))(App);
 

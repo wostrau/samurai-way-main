@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {followUserTC, getUsersTC, unfollowUserTC, usersAction, UsersPageType, UserType} from '../../redux/users-reducer'
+import {followUserTC, getUsersTC, unfollowUserTC, usersAction, UsersPageType, UserStateType} from '../../redux/users-reducer'
 import {AppStateType} from '../../redux/redux-store'
 import {Users} from './Users'
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin'
@@ -15,7 +15,7 @@ import {
 } from '../../redux/users-selectors'
 
 type MapDispatchToPropsType = {
-    setUsers: (users: Array<UserType>) => void,
+    setUsers: (users: Array<UserStateType>) => void,
     setCurrentPage: (currentPage: number) => void,
     setTotalUsersCount: (totalUsersCount: number) => void,
     toggleIsFetching: (isFetching: boolean) => void,

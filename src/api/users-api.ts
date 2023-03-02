@@ -1,9 +1,9 @@
 import {instance, APIResponseType} from './api'
-import {UserType} from '../redux/users-reducer'
+import {UserStateType} from '../redux/users-reducer'
 
 
 type UsersResponseType = {
-    items: Array<UserType>
+    items: Array<UserStateType>
     totalCount: number
     error: string | null
 }
