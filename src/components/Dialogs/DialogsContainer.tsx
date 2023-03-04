@@ -1,20 +1,14 @@
-import React from 'react';
-import {
-    DialogsStateType,
-    DialogsReducerActionsType,
-    dialogsAction
-} from '../../redux/dialogs-reducer'
-import {Dialogs} from './Dialogs';
-import {connect} from 'react-redux';
-import {AppStateType} from '../../redux/redux-store';
-import {compose, Dispatch} from 'redux';
-import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin';
+import React from 'react'
+import {dialogsAction, DialogsStateType} from '../../redux/dialogs-reducer'
+import {Dialogs} from './Dialogs'
+import {connect} from 'react-redux'
+import {AppStateType} from '../../redux/redux-store'
+import {compose} from 'redux'
+import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin'
 
-type MapDispatchToPropsType = {
+export type MapDispatchToPropsType = {
     sendMessage: (newMessageBody: string) => void
 };
-
-export type DialogsPropsType = DialogsStateType & MapDispatchToPropsType & any;
 
 const mapStateToProps = (state: AppStateType): DialogsStateType => {
     return {
@@ -22,14 +16,9 @@ const mapStateToProps = (state: AppStateType): DialogsStateType => {
         messages: state.dialogsPage.messages
     };
 };
-const mapDispatchToProps = (dispatch: Dispatch<DialogsReducerActionsType>): MapDispatchToPropsType => {
-    return {
-        sendMessage: (newMessageBody: string) => dispatch(dialogsAction.sendMessage(newMessageBody))
-    };
-};
 
 const DialogsContainer = compose<React.ComponentType>(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(mapStateToProps, {...dialogsAction} as MapDispatchToPropsType),
     withRedirectToLogin
 )(Dialogs);
 

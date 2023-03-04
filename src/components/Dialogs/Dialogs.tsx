@@ -1,20 +1,21 @@
-import React from 'react';
-import styles from './Dialogs.module.css';
-import {DialogItem} from './DialogItem/DialogItem';
-import {Message} from './Message/Message';
-import {DialogsPropsType} from './DialogsContainer';
-import {Field, reduxForm} from 'redux-form';
-import {Textarea} from '../common/FormControls/FormControls';
-import {maxLength30, minLength2, requiredField} from '../../utilities/validators';
+import React from 'react'
+import styles from './Dialogs.module.css'
+import {DialogItem} from './DialogItem/DialogItem'
+import {Message} from './Message/Message'
+import {MapDispatchToPropsType} from './DialogsContainer'
+import {DialogsStateType} from '../../redux/dialogs-reducer'
+import {AddMessageFormRedux, AddMessageFormValueType} from './AddMessageForm/AddMessageForm'
 
 
-export const Dialogs = (props: DialogsPropsType) => {
-    const dialogElements = props.dialogs.map((d: any) => <DialogItem key={d.id} id={d.id} name={d.name}/>);
-    const messagesElements = props.messages.map((m: any) => <Message key={m.id} message={m.message}/>);
+type DialogsPropsType = DialogsStateType & MapDispatchToPropsType
 
-    const addNewMessage = (values: any) => {
+export const Dialogs: React.FC<DialogsPropsType> = (props) => {
+    const dialogElements = props.dialogs.map((d: any) => <DialogItem key={d.id} id={d.id} name={d.name}/>)
+    const messagesElements = props.messages.map((m: any) => <Message key={m.id} message={m.message}/>)
+
+    const addNewMessage = (values: AddMessageFormValueType) => {
         props.sendMessage(values.newMessageBody)
-    };
+    }
 
     return (
         <div className={styles.dialogs}>
@@ -28,27 +29,6 @@ export const Dialogs = (props: DialogsPropsType) => {
                 <AddMessageFormRedux onSubmit={addNewMessage}/>
             </div>
         </div>
-    );
-};
+    )
+}
 
-const AddMessageForm = (props: any) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field
-                    name={'newMessageBody'}
-                    component={Textarea}
-                    validate={[requiredField, maxLength30, minLength2]}
-                    placeholder="type new message"
-                    cols={30}
-                    rows={5}
-                />
-            </div>
-            <div>
-                <button>Send message</button>
-            </div>
-        </form>
-    );
-};
-
-const AddMessageFormRedux = reduxForm({form: 'AddMessageForm'})(AddMessageForm);

@@ -1,12 +1,12 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
-import {FormDataType, LoginReduxForm} from './LoginForm'
+import {LoginFormValueType, LoginReduxForm} from './LoginForm'
 import {mDTPType, mSTPType} from './LoginContainer'
 
 export const Login: React.FC<mDTPType & mSTPType> = (props) => {
     const {login, isAuth, captchaUrl} = props;
 
-    const onSubmit = (formData: FormDataType) => {
+    const onSubmit = (formData: LoginFormValueType) => {
         const {email, password, rememberMe, captcha} = formData;
         login(email, password, rememberMe, captcha);
     };

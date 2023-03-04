@@ -1,32 +1,44 @@
-import React from 'react';
-import './App.css';
-import {Navbar} from './components/Navbar/Navbar';
-import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import {LocalAppStateType, initializeApp} from './redux/app-reducer';
-import {AppStateType} from './redux/redux-store';
-import {Preloader} from './components/common/Preloader/Preloader';
-import HeaderContainer from './components/Header/HeaderContainer';
-import {withSuspense} from './hoc/WithSuspense';
+import React from 'react'
+import './App.css'
+import {Navbar} from './components/Navbar/Navbar'
+import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {compose} from 'redux'
+import {initializeApp} from './redux/app-reducer'
+import {AppStateType} from './redux/redux-store'
+import {Preloader} from './components/common/Preloader/Preloader'
+import HeaderContainer from './components/Header/HeaderContainer'
+import {withSuspense} from './hoc/WithSuspense'
 
-const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
-const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
-const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
-const LoginContainer = React.lazy(() => import('./components/Login/LoginContainer'));
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'))
+const LoginContainer = React.lazy(() => import('./components/Login/LoginContainer'))
 
 
-class App extends React.Component<DispatchToPropsType & LocalAppStateType> {
+type DispatchToPropsType = { initializeApp: () => void }
+type MapStateToPropsType = ReturnType<typeof mapStateToProps>
+
+class App extends React.Component<DispatchToPropsType & MapStateToPropsType> {
+    catchAllUnhandledErrors(e: PromiseRejectionEvent) {
+        alert('some error occurred')
+    }
+
     componentDidMount() {
-        this.props.initializeApp();
+        this.props.initializeApp()
+        window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors)
     }
 
     render() {
-        if (!this.props.initialized) return <Preloader/>;
-        const ProfileContainerWithSuspense = withSuspense(ProfileContainer);
-        const DialogsContainerWithSuspense = withSuspense(DialogsContainer);
-        const UsersContainerWithSuspense = withSuspense(UsersContainer);
-        const LoginContainerWithSuspense = withSuspense(LoginContainer);
+        if (!this.props.initialized) return <Preloader/>
+        const ProfileContainerWithSuspense = withSuspense(ProfileContainer)
+        const DialogsContainerWithSuspense = withSuspense(DialogsContainer)
+        const UsersContainerWithSuspense = withSuspense(UsersContainer)
+        const LoginContainerWithSuspense = withSuspense(LoginContainer)
 
         return (
             <div className="app-wrapper">
@@ -62,12 +74,13 @@ class App extends React.Component<DispatchToPropsType & LocalAppStateType> {
                     </Switch>
                 </div>
             </div>
-        );
+        )
     }
 }
 
-const mapStateToProps = (state: AppStateType) => ({initialized: state.app.initialized} as LocalAppStateType);
+const mapStateToProps = (state: AppStateType) => ({initialized: state.app.initialized})
 
-export default compose<React.ComponentType>(withRouter, connect(mapStateToProps, {initializeApp} as DispatchToPropsType))(App);
-
-type DispatchToPropsType = { initializeApp: () => void };
+export default compose<React.ComponentType>(
+    withRouter,
+    connect(mapStateToProps, {initializeApp} as DispatchToPropsType)
+)(App)

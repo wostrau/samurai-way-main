@@ -6,14 +6,14 @@ import React from 'react'
 
 
 type CaptchaType = { captchaUrl: null | string };
-export type FormDataType = {
+export type LoginFormValueType = {
     email: string
     password: string
     rememberMe: boolean
     captcha: string
 }
 
-const LoginForm: React.FC<InjectedFormProps<FormDataType, CaptchaType> & CaptchaType> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<LoginFormValueType, CaptchaType> & CaptchaType> = (props) => {
     const {handleSubmit, error, captchaUrl} = props;
 
     return (
@@ -57,4 +57,4 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType, CaptchaType> & Captcha
     )
 }
 
-export const LoginReduxForm = reduxForm<FormDataType, CaptchaType>({form: 'login'})(LoginForm)
+export const LoginReduxForm = reduxForm<LoginFormValueType, CaptchaType>({form: 'login'})(LoginForm)

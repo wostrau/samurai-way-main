@@ -1,9 +1,7 @@
-import {AppActionsType, AppDispatch, AppStateType, AppThunkType, InferActionsType} from './redux-store'
+import {AppThunkType, InferActionsType} from './redux-store'
 import {updateUsersArray} from '../utilities/object-helpers'
 import {usersAPI} from '../api/users-api'
 import {PhotosType} from '../types/types'
-import {FormAction} from 'redux-form/lib/actions'
-import {ProfileReducerActionsType} from './profile-reducer'
 import {ThunkDispatch} from 'redux-thunk'
 
 
