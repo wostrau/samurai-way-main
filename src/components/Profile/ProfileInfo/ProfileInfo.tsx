@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useState} from 'react';
-import styles from './ProfileInfo.module.css';
-import {Preloader} from '../../common/Preloader/Preloader';
-import userAvatar2 from '../../../assets/userAvatar2.png';
-import {ProfileStatusWithHooks} from './ProfileStatusWithHooks';
-import {ProfileData} from './ProfileData';
-import ProfileDataReduxForm, {ProfileDataFormType} from './ProfileDataForm';
+import React, {ChangeEvent, useState} from 'react'
+import styles from './ProfileInfo.module.css'
+import {Preloader} from '../../common/Preloader/Preloader'
+import userAvatar2 from '../../../assets/userAvatar2.png'
+import {ProfileStatusWithHooks} from './ProfileStatusWithHooks'
+import {ProfileData} from './ProfileData'
+import ProfileDataReduxForm, {ProfileDataFormType} from './ProfileDataForm'
 import {ProfileResponseType} from '../../../api/profile-api'
 
 
@@ -18,23 +18,19 @@ type ProfileInfoPropsType = {
 }
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
-    const {isOwner, status, profile, updateUserStatus, savePhoto, saveProfile} = props;
-    const [editMode, setEditMode] = useState<boolean>(false);
+    const {isOwner, status, profile, updateUserStatus, savePhoto, saveProfile} = props
+    const [editMode, setEditMode] = useState<boolean>(false)
 
-    if (!profile) return <Preloader/>;
+    if (!profile) return <Preloader/>
 
     const onProfilePhotoSelect = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.files) {
-            if (e.currentTarget.files.length) savePhoto(e.currentTarget.files[0]);
-        }
-    };
+        if (e.currentTarget.files && e.currentTarget.files.length) savePhoto(e.currentTarget.files[0])
+    }
 
     const onSubmit = (formData: ProfileDataFormType) => {
-        const updatedProfile = {...profile, ...formData};
-        saveProfile(updatedProfile).then(() => {
-            setEditMode(false);
-        });
-    };
+        const updatedProfile = {...profile, ...formData}
+        saveProfile(updatedProfile).then(() => setEditMode(false))
+    }
 
     return (
         <div>
@@ -62,7 +58,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                 />
             </div>
         </div>
-    );
-};
+    )
+}
 
 

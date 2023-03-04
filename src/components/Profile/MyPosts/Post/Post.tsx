@@ -1,13 +1,13 @@
-import React from 'react';
-import styles from './Post.module.css';
-import userAvatar2 from '../../../../assets/userAvatar2.png';
+import React from 'react'
+import styles from './Post.module.css'
+import userAvatar2 from '../../../../assets/userAvatar2.png'
 
 type PostPropsType = {
     message: string
     likesCount: number
 }
 
-export const Post = (props: PostPropsType) => {
+export const Post: React.FC<PostPropsType> = (props) => {
     return (
         <div className={styles.posts}>
             <div
@@ -22,5 +22,5 @@ export const Post = (props: PostPropsType) => {
             </div>
             <button>LIKE</button>
         </div>
-    );
-};
+    )
+}

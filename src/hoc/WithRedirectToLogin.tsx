@@ -1,4 +1,4 @@
-import React, {ComponentType} from 'react';
+import React from 'react';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {AppStateType} from '../redux/redux-store';
@@ -10,13 +10,13 @@ const mapStateToProps = (state: AppStateType) => {
     } as MapStateToPropsType;
 };
 
-export function withRedirectToLogin<T>(Component: ComponentType<T>) {
+export function withRedirectToLogin<WCP>(WrappedComponent: React.ComponentType<WCP>) {
     class RedirectComponent extends React.Component<MapStateToPropsType> {
         render() {
             const {isAuth, ...restProps} = this.props;
             if (!isAuth) return <Redirect to="/login"/>
-            return <Component {...restProps as T}/>
+            return <WrappedComponent {...restProps as WCP}/>
         }
     }
-    return connect(mapStateToProps)(RedirectComponent);
+    return connect<MapStateToPropsType, {}, WCP, AppStateType>(mapStateToProps)(RedirectComponent);
 }

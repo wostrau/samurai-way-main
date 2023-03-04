@@ -6,7 +6,6 @@ import {Header} from './Header';
 import {compose} from 'redux';
 
 class HeaderContainer extends React.Component<AuthPropsType> {
-
     render() {
         return <Header {...this.props}/>;
     }
