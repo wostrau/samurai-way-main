@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
     form: formReducer
 })
 
-const appAPI = {authAPI, profileAPI, securityAPI, usersAPI}
+export const appAPI = {authAPI, profileAPI, securityAPI, usersAPI}
 const composeEnhancers = (window as any)['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose
 export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk.withExtraArgument(appAPI))))
 

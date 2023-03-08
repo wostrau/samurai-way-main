@@ -14,14 +14,14 @@ export const usersAPI = {
             .get<UsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data)
     },
-    followUser(id: string) {
+    followUser(id: number) {
         return instance
             .post<APIResponseType>(`follow/${id}`)
-            .then(response => response.data)
+            .then(response => response.data) as Promise<APIResponseType>
     },
-    unfollowUser(id: string) {
+    unfollowUser(id: number) {
         return instance
             .delete<APIResponseType>(`follow/${id}`)
-            .then(response => response.data)
+            .then(response => response.data) as Promise<APIResponseType>
     }
 }
