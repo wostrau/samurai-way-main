@@ -1,17 +1,18 @@
-import React from 'react';
-import styles from './Users.module.css';
-import userAvatar2 from '../../assets/userAvatar2.png';
-import {NavLink} from 'react-router-dom';
-import {UserStateType} from '../../redux/users-reducer';
+import React from 'react'
+import styles from './Users.module.css'
+import userAvatar2 from '../../assets/userAvatar2.png'
+import {NavLink} from 'react-router-dom'
+import {followUserTC, unfollowUserTC, UserStateType} from '../../redux/users-reducer'
+import {useDispatch} from 'react-redux'
 
 type UserPropsType = {
     user: UserStateType
-    followingInProgress: Array<number>
-    unfollowUser: (id: number) => void
-    followUser: (id: number) => void
+    followingInProgress: number[]
 }
 
-export const User: React.FC<UserPropsType> = ({user, ...props}) => {
+export const User: React.FC<UserPropsType> = ({user, followingInProgress}) => {
+    const dispatch = useDispatch()
+
     return (
         <div>
             <span>
@@ -19,19 +20,19 @@ export const User: React.FC<UserPropsType> = ({user, ...props}) => {
                     <NavLink to={`/profile/${user.id}`}>
                         <img
                             src={user.photos.small !== null ? user.photos.small : userAvatar2}
-                            alt='usersAvatar'
+                            alt="usersAvatar"
                         />
                     </NavLink>
                 </div>
                 <div>
                     {user.followed
                         ? <button
-                            disabled={props.followingInProgress.some(id => id === user.id)}
-                            onClick={() => props.unfollowUser(user.id)}
+                            disabled={followingInProgress.some(id => id === user.id)}
+                            onClick={() => dispatch(unfollowUserTC(user.id))}
                         >Unfollow</button>
                         : <button
-                            disabled={props.followingInProgress.some(id => id === user.id)}
-                            onClick={() => props.followUser(user.id)}
+                            disabled={followingInProgress.some(id => id === user.id)}
+                            onClick={() => dispatch(followUserTC(user.id))}
                         >Follow</button>
                     }
                 </div>
@@ -44,5 +45,5 @@ export const User: React.FC<UserPropsType> = ({user, ...props}) => {
                 </span>
             </span>
         </div>
-    );
-};
+    )
+}

@@ -5,7 +5,7 @@ import styles from '../common/FormControls/FormControls.module.css'
 import React from 'react'
 
 
-type CaptchaType = { captchaUrl: null | string };
+type CaptchaType = { captchaUrl: any };
 export type LoginFormValueType = {
     email: string
     password: string

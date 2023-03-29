@@ -1,62 +1,67 @@
-import React from 'react'
-import {UsersPropsType} from './UsersContainer'
+import React, {useEffect} from 'react'
 import {Preloader} from '../common/Preloader/Preloader'
 import {Paginator} from '../common/Paginator/Paginator'
 import {User} from './User'
 import {UsersSearchForm} from './UsersSearchForm'
-import {FilterType} from '../../redux/users-reducer'
+import {FilterType, getUsersTC, usersAction} from '../../redux/users-reducer'
+import {useDispatch, useSelector} from 'react-redux'
+import {
+    selectCurrentPage,
+    selectFilter, selectFollowingInProgress,
+    selectIsFetching,
+    selectPageSize,
+    selectTotalUsersCount,
+    selectUsers
+} from '../../redux/users-selectors'
+import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin'
 
-export class Users extends React.Component<UsersPropsType> {
+const Users: React.FC = () => {
+    const pageSize = useSelector(selectPageSize)
+    const totalUsersCount = useSelector(selectTotalUsersCount)
+    const followingInProgress = useSelector(selectFollowingInProgress)
+    const users = useSelector(selectUsers)
+    const currentPage = useSelector(selectCurrentPage)
+    const isFetching = useSelector(selectIsFetching)
+    const filter = useSelector(selectFilter)
 
-    componentDidMount() {
-        const {getUsers, currentPage, pageSize, filter} = this.props
-        getUsers(currentPage, pageSize, filter)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getUsersTC(currentPage, pageSize, filter))
+    }, [dispatch, currentPage, pageSize, filter])
+
+    const onPageChanged = (pageNumber: number) => {
+        dispatch(usersAction.setCurrentPage(pageNumber))
+        dispatch(getUsersTC(pageNumber, pageSize, filter))
     }
 
-    onPageChanged(pageNumber: number) {
-        const {getUsers, setCurrentPage, pageSize, filter} = this.props
-        //setCurrentPage(pageNumber)
-        getUsers(pageNumber, pageSize, filter)
+    const onFilterChanged = (filter: FilterType) => {
+        dispatch(getUsersTC(1, pageSize, filter))
     }
 
-    onFilterChanged(filter: FilterType) {
-        const {getUsers, pageSize} = this.props
-        getUsers(1, pageSize, filter)
-    }
-
-    render() {
-        return (
-            <>
-                {this.props.isFetching ? <Preloader/> : null}
+    return (
+        <>
+            {isFetching ? <Preloader/> : null}
+            <div>
+                <UsersSearchForm
+                    onFilterChanged={onFilterChanged}
+                />
+                <Paginator
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    totalUsersCount={totalUsersCount}
+                    onPageChanged={onPageChanged}
+                />
                 <div>
-                    <UsersSearchForm
-                        onFilterChanged={this.onFilterChanged.bind(this)}
-                    />
-                    <Paginator
-                        pageSize={this.props.pageSize}
-                        currentPage={this.props.currentPage}
-                        totalUsersCount={this.props.totalUsersCount}
-                        onPageChanged={this.onPageChanged.bind(this)}
-
-                    />
-                    <div>
-                        {this.props.users.map(u => {
-                                return (
-                                    <User
-                                        key={u.id}
-                                        user={u}
-                                        followingInProgress={this.props.followingInProgress}
-                                        followUser={this.props.followUser}
-                                        unfollowUser={this.props.unfollowUser}
-                                    />
-                                )
-                            }
-                        )}
-                    </div>
+                    {users.map(u => <User
+                        key={u.id}
+                        user={u}
+                        followingInProgress={followingInProgress}
+                    />)}
                 </div>
-            </>
-        )
-    };
+            </div>
+        </>
+    )
 }
 
-
+export default withRedirectToLogin(Users)

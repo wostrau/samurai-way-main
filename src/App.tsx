@@ -12,8 +12,8 @@ import {withSuspense} from './hoc/WithSuspense'
 
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
-const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'))
-const LoginContainer = React.lazy(() => import('./components/Login/LoginContainer'))
+const Login = React.lazy(() => import('./components/Login/Login'))
+const Users = React.lazy(() => import('./components/Users/Users'))
 
 
 type DispatchToPropsType = { initializeApp: () => void }
@@ -37,8 +37,8 @@ class App extends React.Component<DispatchToPropsType & MapStateToPropsType> {
         if (!this.props.initialized) return <Preloader/>
         const ProfileContainerWithSuspense = withSuspense(ProfileContainer)
         const DialogsContainerWithSuspense = withSuspense(DialogsContainer)
-        const UsersContainerWithSuspense = withSuspense(UsersContainer)
-        const LoginContainerWithSuspense = withSuspense(LoginContainer)
+        const LoginWithSuspense = withSuspense(Login)
+        const UsersWithSuspense = withSuspense(Users)
 
         return (
             <div className="app-wrapper">
@@ -60,12 +60,12 @@ class App extends React.Component<DispatchToPropsType & MapStateToPropsType> {
                             render={() => <DialogsContainerWithSuspense/>}
                         />
                         <Route
-                            path="/users"
-                            render={() => <UsersContainerWithSuspense/>}
+                            path="/login"
+                            render={() => <LoginWithSuspense/>}
                         />
                         <Route
-                            path="/login"
-                            render={() => <LoginContainerWithSuspense/>}
+                            path="/users"
+                            render={() => <UsersWithSuspense/>}
                         />
                         <Route
                             path="*"
