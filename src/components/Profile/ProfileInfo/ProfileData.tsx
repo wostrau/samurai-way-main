@@ -1,5 +1,5 @@
 import React from 'react'
-import {Contact, ProfileContacts} from './Contact'
+import {Contact} from './Contact'
 import {ProfileResponseType} from '../../../api/profile-api'
 import {ContactsType} from '../../../types/types'
 

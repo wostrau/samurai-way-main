@@ -1,12 +1,20 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {followUserTC, getUsersTC, unfollowUserTC, usersAction, UsersPageType, UserStateType} from '../../redux/users-reducer'
+import {
+    FilterType,
+    followUserTC,
+    getUsersTC,
+    unfollowUserTC,
+    usersAction,
+    UsersPageType,
+    UserStateType
+} from '../../redux/users-reducer'
 import {AppStateType} from '../../redux/redux-store'
 import {Users} from './Users'
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin'
 import {compose} from 'redux'
 import {
-    getCurrentPage,
+    getCurrentPage, getFilter,
     getFollowingInProgress,
     getIsFetching,
     getPageSize,
@@ -20,7 +28,7 @@ type MapDispatchToPropsType = {
     setTotalUsersCount: (totalUsersCount: number) => void,
     toggleIsFetching: (isFetching: boolean) => void,
     toggleFollowingInProgress: (id: number, isFetching: boolean) => void,
-    getUsers: (currentPage: number, pageSize: number) => void,
+    getUsers: (currentPage: number, pageSize: number, filter: FilterType) => void,
     followUser: (id: number) => void,
     unfollowUser: (id: number) => void,
 };
@@ -34,7 +42,8 @@ const mapStateToProps = (state: AppStateType): UsersPageType => {
         users: getUsers(state),
         currentPage: getCurrentPage(state),
         isFetching: getIsFetching(state),
-        followingInProgress: getFollowingInProgress(state)
+        followingInProgress: getFollowingInProgress(state),
+        filter: getFilter(state)
     }
 };
 

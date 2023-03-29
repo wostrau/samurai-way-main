@@ -9,7 +9,7 @@ describe('Paginator component', () => {
             currentPage={1}
             portionSize={10}
             totalUsersCount={11}
-            currentPageChange={()=>{}}
+            onPageChanged={()=>{}}
         />);
         let spans = component.root.findAllByType('span');
         expect(spans.length).toBe(10);
@@ -20,7 +20,7 @@ describe('Paginator component', () => {
             currentPage={1}
             portionSize={10}
             totalUsersCount={11}
-            currentPageChange={()=>{}}
+            onPageChanged={()=>{}}
         />);
         let button = component.root.findAllByType('button');
         expect(button.length).toBe(1);

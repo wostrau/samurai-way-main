@@ -1,9 +1,8 @@
-import {AppActionsType, AppDispatch, AppStateType, AppThunkType, InferActionsType} from './redux-store'
+import {AppThunkType, InferActionsType} from './redux-store'
 import {ResultCodes} from '../api/api'
 import {stopSubmit} from 'redux-form'
 import {authAPI} from '../api/auth-api'
 import {securityAPI} from '../api/security-api'
-import {ThunkDispatch} from 'redux-thunk'
 import {FormAction} from 'redux-form/lib/actions'
 
 const initialState = {

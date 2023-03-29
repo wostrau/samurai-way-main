@@ -1,5 +1,5 @@
 import {v1} from 'uuid'
-import {AppActionsType, InferActionsType} from './redux-store'
+import {InferActionsType} from './redux-store'
 
 const initialState = {
     dialogs: [

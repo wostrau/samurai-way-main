@@ -1,7 +1,5 @@
-import {AppActionsType, AppDispatch, AppStateType, AppThunkType, InferActionsType} from './redux-store'
-import {AuthReducerActionsType, getAuthUserData} from './auth-reducer'
-import {ThunkDispatch} from 'redux-thunk'
-import {FormAction} from 'redux-form/lib/actions'
+import {AppThunkType, InferActionsType} from './redux-store'
+import {getAuthUserData} from './auth-reducer'
 
 const initialState = {initialized: false}
 

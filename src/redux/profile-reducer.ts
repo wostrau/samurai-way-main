@@ -1,11 +1,10 @@
 import {v1} from 'uuid'
-import {AppActionsType, AppDispatch, AppThunkType, InferActionsType} from './redux-store'
+import {AppThunkType, InferActionsType} from './redux-store'
 import {stopSubmit} from 'redux-form'
 import {profileAPI, ProfileResponseType} from '../api/profile-api'
 import {PostType} from '../api/api'
 import {PhotosType} from '../types/types'
 import {FormAction} from 'redux-form/lib/actions'
-import {AuthReducerActionsType} from './auth-reducer'
 
 
 const initialState = {
