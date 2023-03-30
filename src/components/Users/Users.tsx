@@ -14,6 +14,8 @@ import {
     selectUsers
 } from '../../redux/users-selectors'
 import {withRedirectToLogin} from '../../hoc/WithRedirectToLogin'
+import {useHistory} from 'react-router-dom'
+import * as queryString from 'querystring'
 
 const Users: React.FC = () => {
     const pageSize = useSelector(selectPageSize)
@@ -25,10 +27,13 @@ const Users: React.FC = () => {
     const filter = useSelector(selectFilter)
 
     const dispatch = useDispatch()
+    const history = useHistory()
 
     useEffect(() => {
+        const parsed = queryString.parse(history.location.search.substr(1))
+
         dispatch(getUsersTC(currentPage, pageSize, filter))
-    }, [dispatch, currentPage, pageSize, filter])
+    }, [])
 
     const onPageChanged = (pageNumber: number) => {
         dispatch(usersAction.setCurrentPage(pageNumber))
