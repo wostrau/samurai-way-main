@@ -21,7 +21,7 @@ type MapStateToPropsType = ReturnType<typeof mapStateToProps>
 
 class App extends React.Component<DispatchToPropsType & MapStateToPropsType> {
     catchAllUnhandledErrors(e: PromiseRejectionEvent) {
-        alert('some error occurred')
+        //alert('some error occurred')
     }
 
     componentDidMount() {
