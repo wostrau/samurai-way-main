@@ -1,14 +1,12 @@
 import React from 'react'
-import {AuthPropsType} from './HeaderContainer'
 import {Avatar, Button, Col, Layout, Menu, Row} from 'antd'
-import Link from 'antd/es/typography/Link'
 import {UserOutlined} from '@ant-design/icons'
 import {useDispatch, useSelector} from 'react-redux'
 import {selectIsAuth, selectLogin} from '../../redux/auth-selectors'
 import {logout} from '../../redux/auth-reducer'
-import {NavLink} from 'react-router-dom'
+import {NavLink, Link} from 'react-router-dom'
 
-export const Header: React.FC<AuthPropsType> = (props) => {
+export const Header: React.FC = () => {
     const {Header} = Layout
     const isAuth = useSelector(selectIsAuth)
 
@@ -53,13 +51,3 @@ export const Header: React.FC<AuthPropsType> = (props) => {
         </Header>
     )
 }
-
-
-/*<header className={styles.header}>
-    <img src="src/components/Header/Header" alt=""/>
-    <div className={styles.loginBlock}>
-        {props.isAuth
-            ? <div>{props.login} / <button onClick={props.logout}>Log OUT</button></div>
-            : <NavLink to={'/login'}>Login</NavLink>}
-    </div>
-</header>*/

@@ -2,45 +2,20 @@ import React from 'react'
 import './App.css'
 import 'antd/dist/reset.css'
 import {Navbar} from './components/Navbar/Navbar'
-import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
+import {Link, Redirect, Route, Switch, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 import {initializeApp} from './redux/app-reducer'
 import {AppStateType} from './redux/redux-store'
 import {Preloader} from './components/common/Preloader/Preloader'
-import HeaderContainer from './components/Header/HeaderContainer'
 import {withSuspense} from './hoc/WithSuspense'
-import {LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons'
-import type {MenuProps} from 'antd'
-import {Avatar, Breadcrumb, Layout, Menu, theme} from 'antd'
-import Link from 'antd/es/typography/Link'
+import {Breadcrumb, Layout, Menu, theme} from 'antd'
 import {Header} from './components/Header/Header'
+import SubMenu from 'antd/es/menu/SubMenu'
+import {UserOutlined} from '@ant-design/icons'
 
 
 const {Content, Sider, Footer} = Layout
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-    key,
-    label: `nav ${key}`
-}))
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-    (icon, index) => {
-        const key = String(index + 1)
-
-        return {
-            key: `sub${key}`,
-            icon: React.createElement(icon),
-            label: `subnav ${key}`,
-
-            children: new Array(4).fill(null).map((_, j) => {
-                const subKey = index * 4 + j + 1
-                return {
-                    key: subKey,
-                    label: `option${subKey}`
-                }
-            })
-        }
-    }
-)
 const {token: {colorBgContainer}} = theme.useToken()
 
 
@@ -48,6 +23,7 @@ const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileCo
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 const Login = React.lazy(() => import('./components/Login/Login'))
 const Users = React.lazy(() => import('./components/Users/Users'))
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'))
 
 
 type DispatchToPropsType = { initializeApp: () => void }
@@ -71,11 +47,11 @@ class App extends React.Component<DispatchToPropsType & MapStateToPropsType> {
     render() {
 
         if (!this.props.initialized) return <Preloader/>
-        const ProfileContainerWithSuspense = withSuspense(ProfileContainer)
-        const DialogsContainerWithSuspense = withSuspense(DialogsContainer)
-        const LoginWithSuspense = withSuspense(Login)
-        const UsersWithSuspense = withSuspense(Users)
-
+        const SuspendedProfileContainer = withSuspense(ProfileContainer)
+        const SuspendedDialogsContainer = withSuspense(DialogsContainer)
+        const SuspendedLogin = withSuspense(Login)
+        const SuspendedUsers = withSuspense(Users)
+        const SuspendedChatPage = withSuspense(ChatPage)
 
         return (
             <Layout>
@@ -91,16 +67,20 @@ class App extends React.Component<DispatchToPropsType & MapStateToPropsType> {
                         <Sider style={{background: colorBgContainer}} width={200}>
                             <Menu
                                 mode="inline"
-                                defaultSelectedKeys={['1']}
-                                defaultOpenKeys={['sub1']}
                                 style={{height: '100%'}}
-                                items={items2}
-                            />
+                            >
+                                <SubMenu key={'sub1'} icon={<UserOutlined/>} title={'My Profile'}>
+                                    <Menu.Item key={'1'}><Link to={'/profile'}>Profile</Link></Menu.Item>
+                                    <Menu.Item key={'2'}><Link to={'/dialogs'}>Dialogs</Link></Menu.Item>
+                                </SubMenu>
+                                <SubMenu key={'sub2'} icon={<UserOutlined/>} title={'Developers'}>
+                                    <Menu.Item key={'3'}><Link to={'/chat'}>Chat</Link></Menu.Item>
+                                </SubMenu>
+                            </Menu>
                         </Sider>
                         <Content style={{padding: '0 24px', minHeight: 280}}>
 
                             <div className="app-wrapper">
-                                <HeaderContainer/>
                                 <Navbar/>
                                 <div className="app-wrapper-content">
                                     <Switch>
@@ -111,19 +91,23 @@ class App extends React.Component<DispatchToPropsType & MapStateToPropsType> {
                                         />
                                         <Route
                                             path="/profile/:userId?"
-                                            render={() => <ProfileContainerWithSuspense/>}
+                                            render={() => <SuspendedProfileContainer/>}
                                         />
                                         <Route
                                             path="/dialogs"
-                                            render={() => <DialogsContainerWithSuspense/>}
+                                            render={() => <SuspendedDialogsContainer/>}
                                         />
                                         <Route
                                             path="/login"
-                                            render={() => <LoginWithSuspense/>}
+                                            render={() => <SuspendedLogin/>}
                                         />
                                         <Route
                                             path="/users"
-                                            render={() => <UsersWithSuspense/>}
+                                            render={() => <SuspendedUsers/>}
+                                        />
+                                        <Route
+                                            path="/chat"
+                                            render={() => <SuspendedChatPage/>}
                                         />
                                         <Route
                                             path="*"
