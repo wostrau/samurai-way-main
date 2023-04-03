@@ -12,10 +12,12 @@ import HeaderContainer from './components/Header/HeaderContainer'
 import {withSuspense} from './hoc/WithSuspense'
 import {LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons'
 import type {MenuProps} from 'antd'
-import {Breadcrumb, Layout, Menu, theme} from 'antd'
+import {Avatar, Breadcrumb, Layout, Menu, theme} from 'antd'
+import Link from 'antd/es/typography/Link'
+import {Header} from './components/Header/Header'
 
 
-const {Header, Content, Sider, Footer} = Layout
+const {Content, Sider, Footer} = Layout
 const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
     key,
     label: `nav ${key}`
@@ -40,9 +42,6 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
     }
 )
 const {token: {colorBgContainer}} = theme.useToken()
-
-
-
 
 
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
@@ -78,14 +77,10 @@ class App extends React.Component<DispatchToPropsType & MapStateToPropsType> {
         const UsersWithSuspense = withSuspense(Users)
 
 
-
-
         return (
             <Layout>
-                <Header className="header">
-                    <div className="logo"/>
-                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1}/>
-                </Header>
+                <Header/>
+
                 <Content style={{padding: '0 50px'}}>
                     <Breadcrumb style={{margin: '16px 0'}}>
                         <Breadcrumb.Item>Home</Breadcrumb.Item>
