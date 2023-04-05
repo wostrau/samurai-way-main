@@ -1,6 +1,7 @@
-import {chatAPI, ChatMessageType, StatusType} from '../api/chat-api'
+import {chatAPI, ChatMessageAPIType, StatusType} from '../api/chat-api'
 import {AppThunkType, InferActionsType} from './redux-store'
 import {Dispatch} from 'redux'
+import {v1} from 'uuid'
 
 //initial state
 const initialState = {
@@ -12,7 +13,14 @@ const initialState = {
 export const chatReducer = (state = initialState, action: ChatActionsType): initialStateType => {
     switch (action.type) {
         case 'CHAT/MESSAGES_RECEIVED':
-            return {...state, messages: [...state.messages, ...action.payload.messages]}
+            return {
+                ...state,
+                messages: [
+                    ...state.messages,
+                    ...action.payload.messages
+                        .map(m => ({...m, id: v1()}))
+                ].filter((m, index, array) => index >= array.length - 100)
+            }
         case 'CHAT/STATUS_CHANGED':
             return {...state, status: action.payload.status}
         default:
@@ -22,7 +30,7 @@ export const chatReducer = (state = initialState, action: ChatActionsType): init
 
 //actions
 export const chatActions = {
-    messagesReceived: (messages: ChatMessageType[]) => {
+    messagesReceived: (messages: ChatMessageAPIType[]) => {
         return {type: 'CHAT/MESSAGES_RECEIVED', payload: {messages}} as const
     },
     statusChanged: (status: StatusType) => {
@@ -31,10 +39,10 @@ export const chatActions = {
 }
 
 //thunks
-let _newMessageHandler: ((messages: ChatMessageType[]) => void) | null = null
+let _newMessageHandler: ((messages: ChatMessageAPIType[]) => void) | null = null
 const newMessageHandlerCreator = (dispatch: Dispatch) => {
     if (_newMessageHandler === null) {
-        _newMessageHandler = (messages: ChatMessageType[]) => {
+        _newMessageHandler = (messages: ChatMessageAPIType[]) => {
             dispatch(chatActions.messagesReceived(messages))
         }
     }
@@ -71,6 +79,7 @@ export const sendMessage = (message: string): ChatThunkType => {
 }
 
 //types
+type ChatMessageType = ChatMessageAPIType & { id: string }
 type initialStateType = typeof initialState
 type ChatActionsType = InferActionsType<typeof chatActions>
 type ChatThunkType = AppThunkType<ChatActionsType>
