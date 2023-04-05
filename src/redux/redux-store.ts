@@ -10,12 +10,14 @@ import {authAPI} from '../api/auth-api'
 import {profileAPI} from '../api/profile-api'
 import {securityAPI} from '../api/security-api'
 import {usersAPI} from '../api/users-api'
+import {chatReducer} from './chat-reducer'
 
 const rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
     auth: authReducer,
+    chat: chatReducer,
     app: appReducer,
     form: formReducer
 })
