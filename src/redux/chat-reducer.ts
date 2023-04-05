@@ -37,6 +37,7 @@ const newMessageHandlerCreator = (dispatch: Dispatch) => {
 
 export const startListeningMessages = (): ChatThunkType => {
     return async (dispatch) => {
+        chatAPI.start()
         chatAPI.subscribe(newMessageHandlerCreator(dispatch))
     }
 }
@@ -45,6 +46,10 @@ export const stopListeningMessages = (): ChatThunkType => {
     return async (dispatch) => {
         chatAPI.unsubscribe(newMessageHandlerCreator(dispatch))
     }
+}
+
+export const sendMessage = (message: string): ChatThunkType => {
+    return async () => chatAPI.sendMessage(message)
 }
 
 
